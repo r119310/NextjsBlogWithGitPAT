@@ -5,6 +5,7 @@
     "getposts",
     "hljs",
     "isirmt",
+    "opengraph",
     "rehype",
     "tabler"
   ]

@@ -26,7 +26,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return generateMetadataTemplate({
     title: `${data.title}`,
     description: `「${siteName}」の投稿`,
-    url: `/post/${params.slug}`
+    url: `/post/${params.slug}`,
+    type: "article",
   });
 }
 
