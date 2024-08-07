@@ -18,6 +18,7 @@ export default function RootLayout({
     <html lang="ja">
       <head prefix="og: http://ogp.me/ns#">
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="alternate" type="application/atom+xml" href="/feed" />
       </head>
       <body className={`${mplus2.className} min-h-vh bg-gray-100`}>
         <Header />

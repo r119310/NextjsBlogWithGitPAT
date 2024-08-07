@@ -5,7 +5,6 @@ import Link from "next/link";
 import PostIndex from "@/components/post/PostIndex";
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
-import { siteName } from '@/static/constant';
 import Article from "@/components/ArticlePage";
 import { Main, SideMDShown } from "@/components/PageLayout";
 
@@ -16,11 +15,11 @@ const getFileContent = cache(async (slug: string) => {
 })
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const { data, content } = await getFileContent(params.slug);
+  const { data, excerpt } = await getFileContent(params.slug);
 
   return generateMetadataTemplate({
     title: `${data.title}`,
-    description: `「${siteName}」の投稿`,
+    description: `${excerpt}`,
     url: `/post/${params.slug}`,
     type: "article",
   });
