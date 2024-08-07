@@ -1,0 +1,98 @@
+.markdown h1 {
+  margin: 1rem 0;
+  font-size: 1.8rem;
+}
+
+.markdown h2 {
+  margin-top: 1rem;
+  width: 100%;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.markdown h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: .5rem 0;
+}
+
+.markdown iframe {
+  max-width: 100%;
+  margin: 1rem auto;
+}
+
+.markdown img {
+  margin: 1rem auto;
+}
+
+.markdown p {
+  margin: .25rem 0;
+}
+
+.markdown p>code {
+  background-color: #f7f7f7;
+  padding: .1rem .25rem;
+  border-radius: .25rem;
+}
+
+.markdown a {
+  color: #564dd1;
+  text-decoration: underline;
+}
+
+.markdown a:hover {
+  text-decoration: none;
+}
+
+.markdown ul:not(.contains-task-list),
+.markdown ol {
+  margin: .5rem 0 .5rem 2rem;
+}
+
+.markdown ul:not(.contains-task-list) li {
+  list-style-type: disc;
+}
+
+.markdown ol li {
+  list-style: decimal;
+}
+
+.markdown table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown table th {
+  padding: 10px;
+  background: #b9e0de;
+  border: solid .25rem #fff;
+  border-radius: .25rem .25rem 0 0;
+}
+
+.markdown table td {
+  padding: 10px;
+  border: solid .25rem #fff;
+}
+
+.markdown table tr:nth-child(2n) {
+  background-color: #f5f5f5;
+}
+
+.markdown .post_codeblock {
+  margin: 1rem 0;
+}
+
+.markdown .post_fname {
+  padding: .15rem .5rem;
+  background-color: #1a1743;
+  color: white;
+  display: inline-block;
+  border-radius: .5rem .5rem 0 0;
+}
+
+.markdown pre {
+  border-radius: 0 .5rem .5rem .5rem;
+}
