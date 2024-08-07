@@ -35,7 +35,7 @@ export const getPostsProps = cache(async () => {
 });
 
 export const getPost = cache(async (slug: string) => {
-  const fileJson = await fetch(`https://api.github.com/repos/${process.env.GIT_USERNAME}/${process.env.GIT_REPO}/contents/${process.env.GIT_POSTS_DIR}/${slug}.md`,
+  const fileJson = await fetch(`https://api.github.com/repos/${process.env.GIT_USERNAME}/${process.env.GIT_REPO}/contents/${slug}`,
     {
       headers: { "Authorization": `token ${process.env.GIT_TOKEN}` },
       next: { revalidate: 3600 * 6},

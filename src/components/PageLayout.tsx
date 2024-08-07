@@ -12,6 +12,14 @@ export function Side({ children }: { children?: React.ReactNode }) {
   </div>
 }
 
+export function SideMDShown({ children }: { children?: React.ReactNode }) {
+  return <div className="sticky md:relative bg-gray-100 md:w-44 lg:min-w-64 top-0 z-20 md:z-auto">
+    <div className="w-full sticky top-14 flex flex-row-reverse md:block">
+      {children}
+    </div>
+  </div>
+}
+
 export function Section({ children }: { children?: React.ReactNode }) {
   return <section className="bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0">
     {children}

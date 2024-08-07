@@ -19,9 +19,6 @@ export default function Menu() {
           {favorites.map((tag, i) => <TagBanner isSmall tag={tag} key={i} />)}
         </div>
       </div>
-      <div className="p-3">
-        
-      </div>
     </div>
   </div>
 }

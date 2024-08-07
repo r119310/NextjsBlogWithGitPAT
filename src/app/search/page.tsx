@@ -1,7 +1,7 @@
 import SearchResult from "@/components/SearchResults";
 import TipsCard from "@/components/TipsCard";
 import { getPostsProps } from "@/lib/getposts"
-import { Main, Section, Side, Title } from '@/components/SideHiddenPage';
+import { Main, Section, Side, Title } from '@/components/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
