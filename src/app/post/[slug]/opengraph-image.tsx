@@ -13,8 +13,9 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image({ params }: { params: { slug: string } }) {
-  const slug = decodeURIComponent(params.slug);
-  const { data } = await getPost(slug);
+  const decodedSlug = decodeURIComponent(params.slug);
+  const postPath = `${process.env.GIT_POSTS_DIR}/${decodedSlug}.md`
+  const { data } = await getPost(postPath);
 
   return new ImageResponse(
     (
