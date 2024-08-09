@@ -2,7 +2,7 @@
 
 import { getFavList } from "@/lib/favTagsManager";
 import { useEffect, useState } from "react";
-import TagBanner from "./TagBanner";
+import TagBanner from "../tag/TagBanner";
 
 export default function Menu() {
   const [favorites, setFavorites] = useState<string[]>([]);

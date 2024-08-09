@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SearchBoxWrapper from "./SearchBoxWrapper";
+import SearchBoxWrapper from "../SearchBoxWrapper";
 import { siteName } from "@/static/constant";
 import Image from "next/image";
 
@@ -19,6 +19,7 @@ export default function Header() {
       <div className="hidden md:block"><SearchBoxWrapper /></div>
       <div className="flex flex-row-reverse gap-3">
         <span><Link className="hover:underline" href="/tags">タグ</Link></span>
+        <span><Link className="hover:underline" href="/series">シリーズ</Link></span>
         <span><Link className="hover:underline" href="/post">投稿</Link></span>
       </div>
     </nav>

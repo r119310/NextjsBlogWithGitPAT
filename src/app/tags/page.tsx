@@ -1,7 +1,7 @@
-import TagBanner from '@/components/TagBanner';
+import TagBanner from '@/components/tag/TagBanner';
 import TipsCard from '@/components/TipsCard';
 import { getPostsProps } from '@/lib/getposts';
-import { Main, Section, Side, Title } from '@/components/PageLayout';
+import { Main, Section, Side, Title } from '@/components/post/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
@@ -18,7 +18,7 @@ export default async function TagList() {
   const posts = await getPostsProps();
   const tags: string[] = Array.from(new Set(posts
     .filter((post) => post.data.tags)
-    .flatMap((post) => post.data.tags)
+    .flatMap((post) => post.data.tags as string[])
   ));
 
   return <Main>

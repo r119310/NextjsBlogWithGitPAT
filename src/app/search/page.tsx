@@ -1,10 +1,11 @@
 import SearchResult from "@/components/SearchResults";
 import TipsCard from "@/components/TipsCard";
 import { getPostsProps } from "@/lib/getposts"
-import { Main, Section, Side, Title } from '@/components/PageLayout';
+import { Main, Section, Side, Title } from '@/components/post/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string } }): Promise<Metadata> {
   const query = searchParams["q"] ?? "";
@@ -20,6 +21,9 @@ export async function generateMetadata({ searchParams }: { searchParams: { [key:
 export default async function SearchPage({ searchParams }: { searchParams: { [key: string]: string } }) {
   const posts = await getPostsProps();
   const query = searchParams["q"] ?? "";
+  const keywords = Array.from(new Set(decodeURIComponent(query).split(/[\u0020\u3000]+/).filter((keyword) => keyword !== "")));
+  
+  if (keywords.length === 0) notFound();
 
   return <Main>
     <Side>
@@ -27,7 +31,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { [ke
     </Side>
     <Section>
       <Title>検索結果</Title>
-      <SearchResult posts={posts} query={query} />
+      <SearchResult posts={posts} keywords={keywords} />
     </Section>
   </Main>
 }

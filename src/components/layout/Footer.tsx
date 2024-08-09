@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <small>&copy; isirmt</small>
+      <small>&copy; {author.name}</small>
     </div>
   </footer>
 }

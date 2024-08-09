@@ -19,7 +19,7 @@ export async function GET() {
   const posts = await getPostsProps();
 
   posts.forEach((post) => feed.item({
-    title: post.data.title as string,
+    title: post.data.title,
     description: post.excerpt,
     url: `${baseURL}/post/${post.slug}`,
     date: new Date((post.data.date as string).replace(/-/g, "/")).toISOString()

@@ -6,8 +6,8 @@ import PostIndex from "@/components/post/PostIndex";
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { author, siteName } from '@/static/constant';
-import Article from "@/components/ArticlePage";
-import { Main, SideMDShown } from "@/components/PageLayout";
+import Article from "@/components/layout/ArticlePage";
+import { Main, SideMDShown } from "@/components/post/PageLayout";
 
 const getFileContent = cache(async () => {
   const postPath = `${process.env.GIT_PROFILE_PATH}`
@@ -15,7 +15,7 @@ const getFileContent = cache(async () => {
 })
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { data, content } = await getFileContent();
+  const { data } = await getFileContent();
 
   return generateMetadataTemplate({
     title: `${data.title}`,

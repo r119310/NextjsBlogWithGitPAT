@@ -19,9 +19,6 @@ export function generateMetadataTemplate(props: Props): Metadata {
   const outputDescription = description
     ? description
     : siteDescription;
-  const outputURL = url
-    ? `${process.env.NEXT_PUBLIC_URL}${url}`
-    : process.env.NEXT_PUBLIC_URL;
   const outputType: OpenGraphType = type ? type : "website";
 
   const metadata: Metadata = {
@@ -34,7 +31,7 @@ export function generateMetadataTemplate(props: Props): Metadata {
     openGraph: {
       title: title ? title : siteName,
       description: outputDescription,
-      url: outputURL,
+      url: url,
       siteName,
       type: outputType,
     },

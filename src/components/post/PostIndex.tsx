@@ -38,7 +38,7 @@ export default function PostIndex({ content, title }: { content: string, title: 
     );
   };
 
-  return <div className="p-3 flex flex-col">
+  return <div className="px-3 pb-3 pt-3 md:pt-6 flex flex-col">
     <button onClick={() => setIsOpen(!isOpen)} className='bg-slate-200 py-1 px-6 rounded-md hover:bg-slate-300 md:hover:bg-slate-200'>
       目次
     </button>

@@ -10,9 +10,11 @@ import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import type { ClassAttributes, HTMLAttributes } from 'react'
 import type { ExtraProps } from 'react-markdown';
 import '@/styles/post/style.css'
-import TagBanner from "@/components/TagBanner";
+import TagBanner from "@/components/tag/TagBanner";
 import DateCard from "@/components/post/DateCard";
-import { getImage } from "@/lib/getposts";
+import { getImage, getSeries } from "@/lib/getposts";
+import { PostData, SeriesData } from "@/static/postType";
+import SeriesCard from "../SeriesCard";
 
 function getMimeType(path: string) {
   const ext = path.split('.').pop()?.toLowerCase();
@@ -39,12 +41,9 @@ async function ExImg({ path, alt }: { path: string, alt?: string }) {
   return <img alt={alt} src={`data:${mimeType};base64,${image64}`} />
 }
 
-export default function Article({ data, content }: {
-  data: {
-    [key: string]: any,
-  },
-  content: string,
-}) {
+export default async function Article({ data, content }: { data: PostData, content: string }) {
+  const series = data.series ? await getSeries(data.series) : undefined;
+
   const H2 = ({ node, ...props }:
     ClassAttributes<HTMLHeadingElement> &
     HTMLAttributes<HTMLHeadingElement> &
@@ -61,7 +60,8 @@ export default function Article({ data, content }: {
     HTMLAttributes<HTMLHeadingElement> &
     ExtraProps) => {
     return (
-      <h3 {...props} className="scroll-mt-16" id={node!.position?.start.line.toString()}>{props.children}</h3>
+      <h3 {...props} className="scroll-mt-16"
+        id={node!.position?.start.line.toString()}>{props.children}</h3>
     );
   };
 
@@ -113,19 +113,26 @@ export default function Article({ data, content }: {
 
   return <article className="bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0">
     <div className="flex items-center mb-2">
-        <DateCard date={data.date} />
-        <h1 className="my-4 text-3xl">{data.title}</h1>
-      </div>
-      {data.tags ?
-        <div className="flex flex-wrap gap-3 ml-3 mt-4">
-          {(data.tags as string[]).map((tag, i) =>
-            <TagBanner tag={tag} key={i} />)}
-        </div> :
-        <></>}
-      <div className="markdown">
-        <ReactMarkdown components={{ pre: Pre, h2: H2, h3: H3, img: Img }} remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeRaw]}>
-          {content}
-        </ReactMarkdown>
-      </div>
+      <DateCard date={data.date} />
+      <h1 className="my-4 text-3xl">{data.title}</h1>
+    </div>
+    {data.tags ?
+      <div className="flex flex-wrap gap-3 ml-3 mt-4">
+        {data.tags?.map((tag, i) =>
+          <TagBanner tag={tag} key={i} />)}
+      </div> :
+      <></>}
+    {series ?
+      <div className="mt-3">
+        <SeriesCard
+          slug={data.series as string}
+          index={series.posts.findIndex((item) => item.data.title === data.title && item.data.date === data.date)}
+        />
+      </div> : <></>}
+    <div className="markdown">
+      <ReactMarkdown components={{ pre: Pre, h2: H2, h3: H3, img: Img }} remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeRaw]}>
+        {content}
+      </ReactMarkdown>
+    </div>
   </article>
 }

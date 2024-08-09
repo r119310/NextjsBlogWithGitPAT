@@ -1,19 +1,11 @@
+import { Post } from "@/static/postType";
 import PostCard from "./post/PostCard";
-import TagBanner from "./TagBanner";
+import TagBanner from "./tag/TagBanner";
 
-export default function SearchResult({ posts, query }: {
-  posts: {
-    slug: any;
-    data: {
-      [key: string]: any;
-    };
-  }[],
-  query: string
-}) {
-  const keywords = Array.from(new Set(decodeURIComponent(query).split(/[\u0020\u3000]+/).filter((keyword) => keyword !== "")));
+export default function SearchResult({ posts, keywords }: { posts: Post[], keywords: string[] }) {
   const tags: string[] = Array.from(new Set(posts
     .filter((post) => post.data.tags)
-    .flatMap((post) => post.data.tags)
+    .flatMap((post) => post.data.tags as string[])
   ));
   const filteredPosts = posts.filter(post =>
     keywords.every(keyword => (post.data.title as string).toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))

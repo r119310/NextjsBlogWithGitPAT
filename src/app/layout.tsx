@@ -1,7 +1,7 @@
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Menu from "@/components/Menu";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Menu from "@/components/layout/Menu";
 import { M_PLUS_2 } from 'next/font/google'
 
 const mplus2 = M_PLUS_2({
@@ -9,11 +9,7 @@ const mplus2 = M_PLUS_2({
   display: 'swap',
 })
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ja">
       <head prefix="og: http://ogp.me/ns#">

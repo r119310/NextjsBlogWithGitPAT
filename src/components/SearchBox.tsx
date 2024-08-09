@@ -1,17 +1,11 @@
 'use client';
+import type { Post } from "@/static/postType";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const regex = /[^\u0020\u3000]/;
 
-export default function SearchBox({ posts }: {
-  posts: {
-    slug: any;
-    data: {
-      [key: string]: any;
-    };
-  }[]
-}) {
+export default function SearchBox({ posts }: { posts: Post[] }) {
   const [searchWord, setSearchWord] = useState<string>("");
   const router = useRouter();
 
