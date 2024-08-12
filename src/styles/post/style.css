@@ -30,7 +30,7 @@
   margin: .25rem 0;
 }
 
-.markdown p>code {
+.markdown code {
   background-color: #f7f7f7;
   padding: .1rem .25rem;
   border-radius: .25rem;
@@ -95,4 +95,10 @@
 
 .markdown pre {
   border-radius: 0 .5rem .5rem .5rem;
+}
+
+.markdown pre>code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
 }

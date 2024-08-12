@@ -6,6 +6,7 @@
     "hljs",
     "isirmt",
     "opengraph",
+    "recaptcha",
     "rehype",
     "tabler"
   ]

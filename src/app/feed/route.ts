@@ -5,7 +5,7 @@ import Rss from 'rss';
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;
 
-const baseURL = process.env.NEXT_PUBLIC_URL as string;
+const baseURL = process.env.NEXT_PUBLIC_URL!;
 
 export async function GET() {
   const feed = new Rss({

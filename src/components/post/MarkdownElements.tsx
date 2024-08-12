@@ -2,9 +2,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { getImage } from "@/lib/getposts";
 import { ClassAttributes, HTMLAttributes } from "react";
-import { Components, ExtraProps } from "react-markdown";
+import ReactMarkdown, { Components, ExtraProps } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { github } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 
 function getMimeType(path: string) {
   const ext = path.split('.').pop()?.toLowerCase();
@@ -58,7 +62,7 @@ const Img = ({ node, ...props }:
   ExtraProps & { src?: string, alt?: string }) => {
   const src = props.src as string || '';
   const alt = props.alt as string || '';
-  if (src.startsWith(`/${process.env.GIT_IMAGES_DIR}/`)) {
+  if (src.startsWith(`/${process.env.GIT_IMAGES_DIR!}/`)) {
     return <ExImg path={src} alt={alt} />
   } else
     return (
@@ -100,4 +104,28 @@ const Pre = ({ children, ...props }:
 
 export const components: Partial<Components> = {
   pre: Pre, h2: H2, h3: H3, img: Img
+}
+
+export function PostMarkdown({ content }: { content: string }) {
+  return <div className="markdown">
+    <ReactMarkdown
+      disallowedElements={["h1"]}
+      components={components}
+      remarkPlugins={[remarkMath, remarkGfm]}
+      rehypePlugins={[rehypeRaw]}>
+      {content}
+    </ReactMarkdown>
+  </div>
+}
+
+export function CommentMarkdown({ content }: { content: string }) {
+  return <div className="markdown">
+    <ReactMarkdown
+      disallowedElements={["h1", "h2", "h3", "h4", "h5", "h6", "iframe", "script"]}
+      components={components}
+      remarkPlugins={[remarkMath, remarkGfm]}
+      rehypePlugins={[rehypeRaw, rehypeSanitize]}>
+      {content}
+    </ReactMarkdown>
+  </div>
 }

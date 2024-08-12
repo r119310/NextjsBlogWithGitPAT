@@ -5,7 +5,7 @@ const issueCreationMap: Record<string, Promise<void> | undefined> = {};
 
 const getHeaders = () => {
   return {
-    "Authorization": `token ${process.env.GIT_TOKEN}`,
+    "Authorization": `token ${process.env.GIT_TOKEN!}`,
     "Content-Type": "application/json",
   };
 };
@@ -14,10 +14,10 @@ const getNext = (revalidate: number) => {
   return { revalidate };
 };
 
-const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME}/${process.env.GIT_REPO}/issues`;
+const gitIssuePath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`;
 
 const getFilteredIssuePath = (slug: string) =>
-  `${gitContentPath}?q=${encodeURIComponent(slug)}+in:title`;
+  `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title`;
 
 async function getIssue(slug: string) {
   const data = await fetch(getFilteredIssuePath(slug), {
@@ -53,7 +53,7 @@ const createIssue = cache(async (slug: string) => {
         labels,
       };
 
-      const res = await fetch(gitContentPath, {
+      const res = await fetch(gitIssuePath, {
         method: "POST",
         body: JSON.stringify(data),
         headers: getHeaders(),

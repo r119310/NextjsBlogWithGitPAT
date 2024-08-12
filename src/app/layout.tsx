@@ -1,8 +1,9 @@
-import "./globals.css";
+import "../styles/globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Menu from "@/components/layout/Menu";
 import { M_PLUS_2 } from 'next/font/google'
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const mplus2 = M_PLUS_2({
   subsets: ['latin'],
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </div>
         <Footer />
       </body>
+      <GoogleTagManager gtmId={process.env.GTM_ID!} />
     </html>
   );
 }

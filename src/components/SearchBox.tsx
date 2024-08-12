@@ -3,21 +3,19 @@ import type { Post } from "@/static/postType";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const regex = /[^\u0020\u3000]/;
-
 export default function SearchBox({ posts }: { posts: Post[] }) {
   const [searchWord, setSearchWord] = useState<string>("");
   const router = useRouter();
 
   const triggerSearch = () => {
-    if (regex.test(searchWord)) {
+    if (searchWord.trim() !== "") {
       router.push(`/search?q=${encodeURIComponent(searchWord)}`)
     } else return;
   }
 
   const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      if (!regex.test(searchWord)) return;
+      if (searchWord.trim() === "") return;
       triggerSearch();
     }
   };

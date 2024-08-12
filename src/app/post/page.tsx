@@ -1,5 +1,5 @@
 import PostCard from '@/components/post/PostCard';
-import { Main, Section, Side, Title } from '@/components/post/PageLayout';
+import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import { getPostsProps } from '@/lib/getposts';
 import { generateMetadataTemplate } from '@/lib/SEO';

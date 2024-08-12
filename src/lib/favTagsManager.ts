@@ -1,4 +1,4 @@
-const keyName = process.env.NEXT_PUBLIC_STORAGE_FAVORITE_TAGS as string;
+const keyName = process.env.NEXT_PUBLIC_STORAGE_FAVORITE_TAGS!;
 
 export function getFavList() {
   const favStorage = localStorage.getItem(keyName);

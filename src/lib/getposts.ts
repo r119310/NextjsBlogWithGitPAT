@@ -13,7 +13,7 @@ const getInit = (revalidate: number) => {
   }
 }
 
-const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME}/${process.env.GIT_REPO}/contents`
+const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/contents`
 
 const getPostContent = cache(async (path: string): Promise<{ data: PostData; content: string; excerpt: string }> => {
   const fileJson = await fetch(`${gitContentPath}/${path}`,

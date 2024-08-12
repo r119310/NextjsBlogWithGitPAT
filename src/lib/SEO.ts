@@ -22,7 +22,7 @@ export function generateMetadataTemplate(props: Props): Metadata {
   const outputType: OpenGraphType = type ? type : "website";
 
   const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_URL as string),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL!),
     authors: { name: author.name, url: author.url },
     title: outputTitle,
     description: outputDescription,

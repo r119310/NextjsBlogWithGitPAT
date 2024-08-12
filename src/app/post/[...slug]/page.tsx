@@ -5,13 +5,13 @@ import PostIndex from "@/components/post/PostIndex";
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import Article from "@/components/layout/ArticlePage";
-import { Main, SideMDShown } from "@/components/post/PageLayout";
+import { Main, SideMDShown } from "@/components/layout/PageLayout";
 import ShareButtons from "@/components/ShareButtons";
 import { getCommentList } from "@/lib/commentIssueManager";
 
 const getFileContent = cache(async (path: string) => {
   const decodedSlug = decodeURIComponent(path);
-  const postPath = `${process.env.GIT_POSTS_DIR}/${decodedSlug}.md`
+  const postPath = `${process.env.GIT_POSTS_DIR!}/${decodedSlug}.md`
   return await getPost(postPath);
 })
 

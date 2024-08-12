@@ -1,8 +1,4 @@
 import React from "react";
-import ReactMarkdown from 'react-markdown';
-import remarkMath from 'remark-math';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from "rehype-raw";
 import '@/styles/post/style.css'
 import TagBanner from "@/components/tag/TagBanner";
 import DateCard from "@/components/post/DateCard";
@@ -11,7 +7,9 @@ import { PostData } from "@/static/postType";
 import SeriesCard from "../SeriesCard";
 import { Issue } from "@/static/issueType";
 import CommentForm from "../post/CommentForm";
-import { components } from "../post/MarkdownElements";
+import { PostMarkdown } from "../post/MarkdownElements";
+import { ExplainingBanner } from "../UserBanner";
+import Link from "next/link";
 
 export default async function Article({ data, content, issue, slug }: { data: PostData, content: string, issue?: Issue, slug?: string }) {
   const series = data.series ? await getSeries(data.series) : undefined;
@@ -21,6 +19,12 @@ export default async function Article({ data, content, issue, slug }: { data: Po
       <DateCard date={data.date} />
       <h1 className="my-4 text-3xl">{data.title}</h1>
     </div>
+    <div className="flex text-sm text-gray-600 gap-4 flex-wrap">
+      {issue && !issue.locked ?
+        <Link href="#user-comments" className="underline">
+          <span className="i-tabler-bubble-filled bg-gray-600 mr-2 size-4" />コメント: {issue.comments.length}件
+        </Link> : <></>}
+    </div>
     {data.tags ?
       <div className="flex flex-wrap gap-3 ml-3 mt-4">
         {data.tags?.map((tag, i) =>
@@ -28,20 +32,18 @@ export default async function Article({ data, content, issue, slug }: { data: Po
       </div> :
       <></>}
     {series ?
-      <div className="mt-3">
+      <div className="mt-5">
         <SeriesCard
           slug={data.series as string}
           index={series.posts.findIndex((item) => item.data.title === data.title && item.data.date === data.date)}
         />
       </div> : <></>}
-    <div className="markdown">
-      <ReactMarkdown components={components} remarkPlugins={[remarkMath, remarkGfm]} rehypePlugins={[rehypeRaw]}>
-        {content}
-      </ReactMarkdown>
-    </div>
+    <PostMarkdown content={content} />
     {issue && slug ?
       issue.locked ?
-        <div className="w-full mt-10 py-10 flex items-center text-center justify-center bg-gray-100">コメントは無効です</div> :
+        <ExplainingBanner>
+          コメントは無効です
+        </ExplainingBanner> :
         <CommentForm comments={issue.comments} slug={slug} /> :
       <></>}
   </article>

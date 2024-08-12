@@ -8,16 +8,29 @@ const rateLimit = new LRUCache<string, number>({
 
 const getHeaders = () => {
   return {
-    "Authorization": `token ${process.env.GIT_TOKEN}`,
+    "Authorization": `token ${process.env.GIT_TOKEN!}`,
     "Content-Type": "application/json",
   };
 };
 
+const authorize = async (token: string) => {
+  const secretKey = `secret=${process.env.RECAPTCHA_SECRET_KEY!}&response=${token}`;
+  const data = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: secretKey,
+  }).then(res => res.json());
+
+  return data;
+}
+
 export async function POST(req: NextRequest) {
-  const { slug, comment } = await req.json();
+  const { slug, comment, token } = await req.json();
   const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown';
 
-  if (!slug || !comment) {
+  if (!slug || !comment || !token) {
     return NextResponse.json({ error: 'Missing slug or comment body' }, { status: 400 });
   }
 
@@ -27,8 +40,14 @@ export async function POST(req: NextRequest) {
   }
   rateLimit.set(ip, requestCount + 1);
 
+  const recaptchaJson = await authorize(token);
+
+  if (!recaptchaJson.success) {
+    return NextResponse.json({ error: "ReCAPTCHA verification failed" }, { status: 401 })
+  }
+
   try {
-    const issueResponse = await fetch(`https://api.github.com/repos/${process.env.GIT_USERNAME}/${process.env.GIT_REPO}/issues`, {
+    const issueResponse = await fetch(`https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`, {
       headers: getHeaders(),
     });
     const issues = await issueResponse.json();

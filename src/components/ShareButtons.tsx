@@ -10,7 +10,7 @@ function SNSButton({ url, hoverColor, icon }: { url: string, hoverColor: string,
 }
 
 export default function ShareButtons({ path, text }: { path: string, text: string }) {
-  const sharingURL = `${process.env.NEXT_PUBLIC_URL}${path}`;
+  const sharingURL = `${process.env.NEXT_PUBLIC_URL!}${path}`;
 
   return <div className="flex flex-row gap-3 justify-center">
     <SNSButton
