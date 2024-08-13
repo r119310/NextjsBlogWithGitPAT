@@ -6,7 +6,7 @@ const issueCreationMap: Record<string, Promise<void> | undefined> = {};
 const gitIssuePath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`;
 
 const getFilteredIssuePath = (slug: string) =>
-  `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title`;
+  `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title&state=all`;
 
 async function getIssue(slug: string, revalidate: number = 120) {
   const data = await fetch(getFilteredIssuePath(slug), {
@@ -21,7 +21,8 @@ async function getIssue(slug: string, revalidate: number = 120) {
       return {
         slug: issue.title as string,
         commentsURL: issue.comments_url as string,
-        locked: issue.locked as boolean
+        locked: issue.locked as boolean,
+        state: issue.state as "open" | "closed"
       };
     }
   }
@@ -35,7 +36,7 @@ const createIssue = cache(async (slug: string) => {
       if (targetIssue) return;
       const data = {
         title: slug,
-        body: "コメントリスト",
+        body: `${process.env.NEXT_PUBLIC_URL!}/post/${slug}`,
         labels: ["user-comment"],
       };
 
@@ -84,13 +85,15 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
     }
     return {
       comments,
-      locked: targetIssue.locked
+      locked: targetIssue.locked,
+      state: targetIssue.state
     };
   } else {
     await createIssue(slug);
     return {
       comments: [],
-      locked: false
+      locked: false,
+      state: "open"
     }
   }
 });

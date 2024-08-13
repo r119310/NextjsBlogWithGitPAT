@@ -5,5 +5,6 @@ export type Comment = {
 
 export type Issue = {
   comments: Comment[],
-  locked: boolean
+  locked: boolean,
+  state: "open" | "closed"
 }

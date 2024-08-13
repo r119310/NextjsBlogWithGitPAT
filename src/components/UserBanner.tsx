@@ -5,7 +5,7 @@ export const GenerateNotificationBanner = (text: string, success: boolean) => {
 }
 
 export function ExplainingBanner({ children }: { children: React.ReactNode }) {
-  return <div className="transition-colors w-full py-10 bg-gray-100 flex justify-center items-center text-center text-gray-600 dark:bg-slate-700 dark:text-slate-500">
+  return <div className="my-3 transition-colors w-full py-10 bg-gray-100 flex justify-center items-center text-center text-gray-600 dark:bg-slate-700 dark:text-slate-500">
     {children}
   </div>
 }

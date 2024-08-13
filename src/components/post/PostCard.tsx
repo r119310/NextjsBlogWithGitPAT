@@ -5,7 +5,7 @@ import { Post } from '@/static/postType';
 import { makeExcerpt } from '@/lib/textFormatter';
 
 export default function PostCard({ post }: { post: Post }) {
-  return <div className='transition-all hover:shadow-md rounded-md bg-white dark:bg-slate-800'>
+  return <div className='transition-all hover:shadow-md border border-transparent hover:border-gray-200 rounded-md bg-white dark:bg-slate-800'>
     <div><Link href={`/post/${post.slug}`}>
       <div className="min-h-28 flex items-center">
         <DateCard date={post.data.date} />

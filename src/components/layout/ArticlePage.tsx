@@ -6,7 +6,7 @@ import { getSeries } from "@/lib/getposts";
 import { PostData } from "@/static/postType";
 import SeriesCard from "../SeriesCard";
 import { Issue } from "@/static/issueType";
-import CommentForm from "../post/CommentForm";
+import { CommentForm, CommentFormNoPosting } from "../post/CommentForm";
 import { PostMarkdown } from "../post/MarkdownElements";
 import { ExplainingBanner } from "../UserBanner";
 import Link from "next/link";
@@ -40,11 +40,13 @@ export default async function Article({ data, content, issue, slug }: { data: Po
       </div> : <></>}
     <PostMarkdown content={content} />
     {issue && slug ?
-      issue.locked ?
+      issue.state === "closed" ?
         <ExplainingBanner>
           コメントは無効です
         </ExplainingBanner> :
-        <CommentForm comments={issue.comments} slug={slug} /> :
+        issue.locked ?
+          <CommentFormNoPosting comments={issue.comments} /> :
+          <CommentForm comments={issue.comments} slug={slug} /> :
       <></>}
   </article>
 }
