@@ -4,3 +4,4 @@ export const author = {
   name: "isirmt",
   url: "https://me.itomiri.com"
 }
+export const lastModified = "2024-08-07T09:00:00.000Z";
