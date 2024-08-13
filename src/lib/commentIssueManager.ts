@@ -1,28 +1,16 @@
 import { Comment, Issue } from "@/static/issueType";
 import { cache } from "react";
+import { getHeaders, getNext } from "./fetchingInits";
 
 const issueCreationMap: Record<string, Promise<void> | undefined> = {};
-
-const getHeaders = () => {
-  return {
-    "Authorization": `token ${process.env.GIT_TOKEN!}`,
-    "Content-Type": "application/json",
-  };
-};
-
-const getNext = (revalidate: number) => {
-  return { revalidate };
-};
-
 const gitIssuePath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`;
 
 const getFilteredIssuePath = (slug: string) =>
   `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title`;
 
-async function getIssue(slug: string) {
+async function getIssue(slug: string, revalidate: number = 120) {
   const data = await fetch(getFilteredIssuePath(slug), {
-    headers: getHeaders(),
-    next: getNext(0),
+    ...getHeaders(), ...getNext(revalidate),
   })
     .then((res) => res.json())
     .catch((e) => console.error(e));
@@ -43,24 +31,25 @@ async function getIssue(slug: string) {
 const createIssue = cache(async (slug: string) => {
   if (!issueCreationMap[slug]) {
     issueCreationMap[slug] = (async () => {
-      const title = slug;
-      const body = "コメントリスト";
-      const labels = ["user-comment"];
-
+      const targetIssue = await getIssue(slug, 0);
+      if (targetIssue) return;
       const data = {
-        title,
-        body,
-        labels,
+        title: slug,
+        body: "コメントリスト",
+        labels: ["user-comment"],
       };
 
-      const res = await fetch(gitIssuePath, {
+      await fetch(gitIssuePath, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: getHeaders(),
+        ...getHeaders(),
       })
         .then((res) => {
-          if (res.status !== 201)
+          if (res.status !== 201) {
             console.error(`Error creating issue: ${res.status} - ${res.statusText}`);
+          } else {
+            console.log(`Issue created successfully for slug: ${slug}`);
+          }
         })
         .catch((e) => console.error(e));
     })();
@@ -80,8 +69,7 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
 
   if (targetIssue) {
     const data = await fetch(targetIssue.commentsURL, {
-      headers: getHeaders(),
-      next: getNext(5),
+      ...getHeaders(), ...getNext(5),
     })
       .then((res) => res.json())
       .catch((e) => console.error(e));

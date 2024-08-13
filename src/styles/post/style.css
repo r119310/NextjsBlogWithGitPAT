@@ -127,3 +127,21 @@
   padding: 0;
   border-radius: 0;
 }
+
+.markdown blockquote {
+  padding-block: .1rem;
+  padding-left: 1rem;
+  border-left: .2rem;
+  border-color: #555;
+  border-style: solid;
+  background-color: #f5f5f5;
+  color: #555;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.dark .markdown blockquote {
+  background-color: rgb(51, 65, 85);
+  color: rgb(148, 163, 184);
+  border-color: rgb(148, 163, 184);
+}

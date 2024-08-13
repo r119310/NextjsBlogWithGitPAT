@@ -2,23 +2,17 @@ import matter from 'gray-matter';
 import { cache } from 'react';
 import { MarkdownToPlainText } from './markdownConverter';
 import type { Post, PostData, SeriesData } from '@/static/postType';
-import { compareSeriesPosts } from './postSorter';
+import { comparePosts, compareSeriesPosts } from './postSorter';
 import { makeExcerpt } from './textFormatter';
 import { notFound } from 'next/navigation';
-
-const getInit = (revalidate: number) => {
-  return {
-    headers: { "Authorization": `token ${process.env.GIT_TOKEN}` },
-    next: { revalidate },
-  }
-}
+import { getHeaders, getNext } from './fetchingInits';
 
 const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/contents`
 
 const getPostContent = cache(async (path: string): Promise<{ data: PostData; content: string; excerpt: string }> => {
-  const fileJson = await fetch(`${gitContentPath}/${path}`,
-    getInit(3600)
-  ).then(res => res.json()).catch(err => console.error(err))
+  const fileJson = await fetch(`${gitContentPath}/${path}`, {
+    ...getHeaders(), ...getNext(3600)
+  }).then(res => res.json()).catch(err => console.error(err))
 
   if (fileJson?.message === 'Not Found' || fileJson?.status === 404) {
     notFound();
@@ -43,9 +37,9 @@ const getPostContent = cache(async (path: string): Promise<{ data: PostData; con
 
 export const getSeriesProps = cache(async () => {
   const targetDir = process.env.GIT_POSTS_DIR as string;
-  const data = await fetch(`${gitContentPath}/${targetDir}`,
-    getInit(3600)
-  ).then(res => res.json()).catch(err => console.error(err));
+  const data = await fetch(`${gitContentPath}/${targetDir}`, {
+    ...getHeaders(), ...getNext(3600)
+  }).then(res => res.json()).catch(err => console.error(err));
   const seriesArray = (data as any[])
     .filter((item) => item.type === "dir")
     .map((item) => item.name as string)
@@ -55,9 +49,9 @@ export const getSeriesProps = cache(async () => {
 
 export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
   const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR as string;
-  const data = await fetch(`${gitContentPath}/${targetDir}`,
-    getInit(3600)
-  ).then(res => res.json()).catch(err => console.error(err));
+  const data = await fetch(`${gitContentPath}/${targetDir}`, {
+    ...getHeaders(), ...getNext(3600)
+  }).then(res => res.json()).catch(err => console.error(err));
 
   const posts: Post[] = [];
   for (const item of data) {
@@ -73,9 +67,9 @@ export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
       }
     } else if (!dir && item.type === "dir") {
       // dir指定なしでディレクトリがあった場合、もう一度fetchし、配列に追加
-      const dirContent = await fetch(`${gitContentPath}/${process.env.GIT_POSTS_DIR}/${item.name}`,
-        getInit(3600)
-      ).then(res => res.json()).catch(err => console.error(err));
+      const dirContent = await fetch(`${gitContentPath}/${process.env.GIT_POSTS_DIR}/${item.name}`, {
+        ...getHeaders(), ...getNext(3600)
+      }).then(res => res.json()).catch(err => console.error(err));
 
       const markdownFiles = (dirContent as any[]).filter((subItem) => subItem.type === "file" && subItem.name.endsWith('.md'));
 
@@ -92,15 +86,15 @@ export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
     }
   }
 
-  return posts;
+  return posts.sort(comparePosts);
 });
 
 export const getSeries = cache(async (dir: string) => {
   const postsProps = await getPostsProps(dir);
   const targetDir = `${process.env.GIT_POSTS_DIR}/${dir}`;
-  const fileJson = await fetch(`${gitContentPath}/${targetDir}/meta.json`,
-    getInit(3600)
-  ).then(res => res.json()).catch(err => console.error(err));
+  const fileJson = await fetch(`${gitContentPath}/${targetDir}/meta.json`, {
+    ...getHeaders(), ...getNext(3600)
+  }).then(res => res.json()).catch(err => console.error(err));
 
   let seriesJson: SeriesData;
 
@@ -125,12 +119,12 @@ export const getPost = cache(async (path: string) => {
 });
 
 export const getImage = cache(async (path: string) => {
-  const fileJson = await fetch(`${gitContentPath}${path}`,
-    getInit(3600 * 24 * 30)
-  ).then(res => res.json()).catch(err => console.error(err));
+  const fileJson = await fetch(`${gitContentPath}${path}`, {
+    ...getHeaders(), ...getNext(3600 * 24 * 30)
+  }).then(res => res.json()).catch(err => console.error(err));
 
-  const imageJson = await fetch(fileJson.git_url,
-    getInit(3600 * 24)
-  ).then(res => res.json()).catch(err => console.error(err));
+  const imageJson = await fetch(fileJson.git_url, {
+    ...getHeaders(), ...getNext(3600 * 24)
+  }).then(res => res.json()).catch(err => console.error(err));
   return imageJson.content as string;
 })

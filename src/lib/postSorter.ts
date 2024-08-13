@@ -24,3 +24,10 @@ export function compareSeriesPosts(a: Post, b: Post): number {
     return dateA - dateB;
   }
 }
+
+export function comparePosts(a: Post, b: Post): number {
+  const dateA = a.data.date ? new Date(a.data.date).getTime() : Infinity;
+  const dateB = b.data.date ? new Date(b.data.date).getTime() : Infinity;
+
+  return dateA - dateB;
+}
