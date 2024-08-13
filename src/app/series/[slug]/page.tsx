@@ -28,12 +28,12 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
     </Side>
     <Section>
       <Title>
-        <span className='text-base mr-3 py-1 px-1.5 rounded-md bg-slate-200'>
+        <span className='transition-colors text-base mr-3 py-1 px-1.5 rounded-md bg-slate-200 dark:bg-slate-700'>
           シリーズ
         </span>{series.meta.name}
       </Title>
       {series.meta.description ?
-        <div className='p-2 text-gray-800 bg-slate-100'>
+        <div className='transition-colors p-2 text-gray-800 bg-slate-100 dark:bg-slate-700 dark:text-slate-400'>
           {series.meta.description}
         </div> : <></>}
       <div className='flex flex-col gap-y-3'>

@@ -11,7 +11,7 @@ export default function Menu() {
     setFavorites(getFavList());
   }, [])
 
-  return <div className="relative bg-gray-100 flex-grow-0 min-w-72 px-4 hidden xl:block">
+  return <div className="transition-colors relative bg-gray-100 flex-grow-0 min-w-72 px-4 hidden xl:block dark:bg-slate-900">
     <div className="w-full sticky top-14">
       <div className="p-3">
         お気に入りのタグ

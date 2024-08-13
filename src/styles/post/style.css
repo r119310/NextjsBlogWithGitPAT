@@ -34,11 +34,23 @@
   background-color: #f7f7f7;
   padding: .1rem .25rem;
   border-radius: .25rem;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.dark .markdown code {
+  background-color: rgb(51, 65, 85);
 }
 
 .markdown a {
   color: #564dd1;
   text-decoration: underline;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.dark .markdown a {
+  color: rgb(37, 99, 235);
 }
 
 .markdown a:hover {
@@ -91,6 +103,13 @@
   color: white;
   display: inline-block;
   border-radius: .5rem .5rem 0 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.dark .markdown .post_fname {
+  background-color: rgb(51, 65, 85);
+  color: rgb(148, 163, 184);
 }
 
 .markdown pre {
@@ -98,6 +117,12 @@
 }
 
 .markdown pre>code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.dark .markdown pre>code {
   background-color: transparent;
   padding: 0;
   border-radius: 0;

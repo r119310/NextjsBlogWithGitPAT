@@ -19,7 +19,7 @@ export default function SubscribeTagButton({ tag }: { tag: string }) {
   }
 
   return <button onClick={toggleFavorite}
-    className={`${isFavorite ? "bg-white text-blue-500" : "bg-blue-500 text-white"} drop-shadow-md my-1 px-4 py-1.5 rounded-3xl border border-blue-500`}>
+    className={`transition-all ${isFavorite ? "bg-white text-blue-500 dark:bg-slate-800" : "bg-blue-500 text-white"} drop-shadow-md hover:drop-shadow-xl my-1 px-4 py-1.5 rounded-3xl border border-blue-500`}>
     {isFavorite ? "登録済み" : "お気に入り登録"}
   </button>
 }

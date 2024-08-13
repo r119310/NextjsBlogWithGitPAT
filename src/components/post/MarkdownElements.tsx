@@ -4,11 +4,12 @@ import { getImage } from "@/lib/getposts";
 import { ClassAttributes, HTMLAttributes } from "react";
 import ReactMarkdown, { Components, ExtraProps } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { github } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import CopyToClipboard from "./CopyToClipboard";
 
 function getMimeType(path: string) {
   const ext = path.split('.').pop()?.toLowerCase();
@@ -40,7 +41,7 @@ const H2 = ({ node, ...props }:
   HTMLAttributes<HTMLHeadingElement> &
   ExtraProps) => {
   return (
-    <div className="scroll-mt-16 border-b mb-4" id={node!.position?.start.line.toString()}>
+    <div className="transition-colors scroll-mt-16 border-b mb-4 dark:border-slate-700" id={node!.position?.start.line.toString()}>
       <h2 {...props}>{props.children}</h2>
     </div>
   );
@@ -89,15 +90,16 @@ const Pre = ({ children, ...props }:
   const fileName = classList[1]
 
   return (
-    <div className="post_codeblock">
+    <div className="post_codeblock w-full">
       {fileName && (
         <div className="post_fname">
           <span>{fileName}</span>
         </div>
       )}
-      <SyntaxHighlighter language={language} style={github}>
+      <SyntaxHighlighter language={language} style={atomOneDark}>
         {String(code).replace(/\n$/, '')}
       </SyntaxHighlighter>
+      <CopyToClipboard text={String(code).replace(/\n$/, '')} />
     </div>
   )
 }

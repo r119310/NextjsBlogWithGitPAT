@@ -16,5 +16,6 @@ const config: Config = {
       collections: getIconCollections(["tabler"]),
     })
   ],
+  darkMode: 'class',
 };
 export default config;

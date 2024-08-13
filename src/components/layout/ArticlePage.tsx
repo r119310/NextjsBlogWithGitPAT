@@ -14,15 +14,15 @@ import Link from "next/link";
 export default async function Article({ data, content, issue, slug }: { data: PostData, content: string, issue?: Issue, slug?: string }) {
   const series = data.series ? await getSeries(data.series) : undefined;
 
-  return <article className="bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0">
+  return <article className="transition-colors bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0 dark:bg-slate-800">
     <div className="flex items-center mb-2">
       <DateCard date={data.date} />
       <h1 className="my-4 text-3xl">{data.title}</h1>
     </div>
-    <div className="flex text-sm text-gray-600 gap-4 flex-wrap">
+    <div className="transition-colors flex text-sm text-gray-600 gap-4 flex-wrap dark:text-slate-500">
       {issue && !issue.locked ?
         <Link href="#user-comments" className="underline">
-          <span className="i-tabler-bubble-filled bg-gray-600 mr-2 size-4" />コメント: {issue.comments.length}件
+          <span className="transition-colors i-tabler-bubble-filled bg-gray-600 mr-2 size-4 dark:bg-slate-500" />コメント: {issue.comments.length}件
         </Link> : <></>}
     </div>
     {data.tags ?

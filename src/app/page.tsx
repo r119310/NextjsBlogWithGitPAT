@@ -26,7 +26,7 @@ export default async function Blogs() {
       </TipsCard>
     </Side>
     <SectionNoP>
-      <div className='bg-blue-300 w-full h-36 items-center flex flex-col justify-center'>
+      <div className='transition-colors bg-blue-300 w-full h-36 items-center flex flex-col justify-center dark:bg-violet-600'>
         準備中...
       </div>
       <div className='px-8 pb-8 pt-3'>
@@ -38,7 +38,7 @@ export default async function Blogs() {
         <FavoritePosts posts={posts} />
         <div className='items-center justify-center flex flex-col'>
           <Link href="/post">
-            <div className='border-blue-600 border-2 bg-blue-500 hover:bg-blue-600 py-2 px-4 text-lg text-white drop-shadow-xl rounded-3xl'>投稿一覧へ</div>
+            <div className='transition-colors border-blue-600 border-2 bg-blue-500 hover:bg-blue-600 py-2 px-4 text-lg text-white drop-shadow-xl rounded-3xl'>投稿一覧へ</div>
           </Link>
         </div>
       </div>

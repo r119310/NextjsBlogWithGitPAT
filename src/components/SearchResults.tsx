@@ -19,7 +19,7 @@ export default function SearchResult({ posts, keywords }: { posts: Post[], keywo
     <div>
       <h2>検索キーワード</h2>
       <div className="mt-2 flex flex-wrap gap-3">
-        {keywords.map((keyword, i) => <span key={i} className="py-0.5 px-2 bg-gray-100 rounded-md">
+        {keywords.map((keyword, i) => <span key={i} className="transition-colors py-0.5 px-2 bg-gray-100 rounded-md dark:bg-slate-700">
           {keyword}
         </span>)}
       </div>
