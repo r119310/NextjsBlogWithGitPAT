@@ -8,16 +8,18 @@ import { siteName } from '@/static/constant';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
+  const series = await getSeries(slug);
 
   return generateMetadataTemplate({
-    title: `タグ「${slug}」の投稿一覧`,
-    description: `「${siteName}」内のタグ「${slug}」が付いた投稿一覧`,
-    url: `/tags/${params.slug}`
+    title: `「${series.meta.name}」シリーズの投稿一覧`,
+    description: `${series.meta.description ? series.meta.description : `「${siteName}」内の「${slug}」シリーズの投稿一覧`}`,
+    url: `/series/${params.slug}`
   });
 }
 
 export default async function PostListWithTag({ params }: { params: { slug: string } }) {
-  const series = await getSeries(params.slug);
+  const slug = decodeURIComponent(params.slug);
+  const series = await getSeries(slug);
 
   const posts = series.posts;
 
@@ -33,7 +35,7 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
         </span>{series.meta.name}
       </Title>
       {series.meta.description ?
-        <div className='transition-colors p-2 text-gray-800 bg-slate-100 dark:bg-slate-700 dark:text-slate-400'>
+        <div className='my-3 transition-colors p-2 text-gray-800 bg-slate-100 dark:bg-slate-700 dark:text-slate-400'>
           {series.meta.description}
         </div> : <></>}
       <div className='flex flex-col gap-y-3'>
