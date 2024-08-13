@@ -7,7 +7,7 @@ import { siteName } from '@/static/constant';
 import SearchBoxWrapper from '@/components/SearchBoxWrapper';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -37,9 +37,7 @@ export default async function Blogs() {
         <h2>「お気に入り」登録タグの投稿一覧</h2>
         <FavoritePosts posts={posts} />
         <div className='items-center justify-center flex flex-col'>
-          <Link href="/post">
-            <div className='transition-colors border-blue-600 border-2 bg-blue-500 hover:bg-blue-600 py-2 px-4 text-lg text-white drop-shadow-xl rounded-3xl'>投稿一覧へ</div>
-          </Link>
+          <InnerLinkBlueButton path='/post' text='投稿一覧へ' />
         </div>
       </div>
     </SectionNoP>

@@ -14,7 +14,7 @@ export default function PostIndex({ content, title }: { content: string, title: 
     ExtraProps) => {
     return (
       <li className="list-none w-full"><a
-        className="transition-colors inline-block w-full hover:bg-teal-200 md:hover:bg-gray-200 dark:md:hover:bg-slate-800 p-0.5 pl-2 rounded-md"
+        className="transition-colors inline-block w-full hover:bg-slate-200 md:hover:bg-gray-200 dark:hover:bg-slate-600 dark:md:hover:bg-slate-800 p-0.5 pl-2 rounded-md"
         onClick={() => setIsOpen(false)}
         href={"#" + node!.position?.start.line.toString()}
       >
@@ -29,7 +29,7 @@ export default function PostIndex({ content, title }: { content: string, title: 
     ExtraProps) => {
     return (
       <li className="list-none w-full"><a
-        className="transition-colors inline-block w-full hover:bg-teal-200 md:hover:bg-gray-200 dark:md:hover:bg-slate-800 p-0.5 pl-4 rounded-md"
+        className="transition-colors inline-block w-full hover:bg-slate-200 md:hover:bg-gray-200 dark:hover:bg-slate-600 dark:md:hover:bg-slate-800 p-0.5 pl-4 rounded-md"
         onClick={() => setIsOpen(false)}
         href={"#" + node!.position?.start.line.toString()}
       >
@@ -39,12 +39,12 @@ export default function PostIndex({ content, title }: { content: string, title: 
   };
 
   return <div className="px-3 pb-3 pt-3 md:pt-6 flex flex-col">
-    <button onClick={() => setIsOpen(!isOpen)} className='transition-colors bg-slate-200 py-1 px-6 rounded-md hover:bg-slate-300 md:hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:md:hover:bg-slate-700'>
+    <button onClick={() => setIsOpen(!isOpen)} className='transition-colors bg-slate-200 py-1 px-6 rounded-md hover:bg-slate-300 md:hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 dark:md:hover:bg-slate-700 dark:text-white'>
       目次
     </button>
-    <ol className={`${isOpen ? "" : "hidden"} transition-colors bg-teal-100 absolute top-16 right-0 w-[80vw] border border-teal-400 rounded-md p-4 overflow-y-auto max-h-[calc(100vh_-_14rem)] drop-shadow-xl md:drop-shadow-none md:pt-2 md:pl-2 md:h-auto md:max-h-[calc(100vh_-_14rem)] md:bg-gray-100 md:rounded-none md:border-none md:w-full md:top-0 md:block md:relative dark:md:bg-slate-900`}>
+    <ol className={`${isOpen ? "" : "hidden"} transition-colors bg-slate-100 absolute top-16 right-0 w-[80vw] border border-slate-400 rounded-md p-4 overflow-y-auto max-h-[calc(100vh_-_14rem)] drop-shadow-xl md:drop-shadow-none md:pt-2 md:pl-2 md:h-auto md:max-h-[calc(100vh_-_14rem)] md:bg-gray-100 md:rounded-none md:border-none md:w-full md:top-0 md:block md:relative dark:bg-slate-700 dark:md:bg-slate-900`}>
       <li className="list-none w-full"><a
-        className="transition-colors inline-block w-full hover:bg-teal-200 md:hover:bg-gray-200 p-0.5 rounded-md dark:md:hover:bg-slate-800"
+        className="transition-colors inline-block w-full hover:bg-slate-200 md:hover:bg-gray-200 dark:hover:bg-slate-600 p-0.5 rounded-md dark:md:hover:bg-slate-800"
         onClick={() => setIsOpen(false)}
         href={"#"}
       >

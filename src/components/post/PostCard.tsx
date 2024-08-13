@@ -12,7 +12,7 @@ export default function PostCard({ post }: { post: Post }) {
         <div className='mt-2 ml-2'>
           <p className='transition-colors text-lg leading-6 border-b mb-1 mr-4 dark:border-slate-700'>
             {post.data.series ? <span className='transition-colors text-sm mr-1.5 py-0.5 px-1 bg-slate-200 dark:bg-slate-700 inline-block'>シリーズ</span> : <></>}
-            {post.data.title}
+            <span className='transition-colors dark:text-white'>{post.data.title}</span>
           </p>
           <p className='text-xs leading-3 px-4 mb-2'>{makeExcerpt(post.excerpt, 64)}</p>
         </div>

@@ -17,7 +17,7 @@ export default async function Article({ data, content, issue, slug }: { data: Po
   return <article className="transition-colors bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0 dark:bg-slate-800">
     <div className="flex items-center mb-2">
       <DateCard date={data.date} />
-      <h1 className="my-4 text-3xl">{data.title}</h1>
+      <h1 className="transition-colors my-4 text-3xl dark:text-white">{data.title}</h1>
     </div>
     <div className="transition-colors flex text-sm text-gray-600 gap-4 flex-wrap dark:text-slate-500">
       {issue && !issue.locked ?

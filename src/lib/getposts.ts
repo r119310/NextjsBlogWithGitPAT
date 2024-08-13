@@ -100,15 +100,23 @@ export const getSeries = cache(async (dir: string) => {
   const targetDir = `${process.env.GIT_POSTS_DIR}/${dir}`;
   const fileJson = await fetch(`${gitContentPath}/${targetDir}/meta.json`,
     getInit(3600)
-  ).then(res => res.json()).catch(err => console.error(err))
+  ).then(res => res.json()).catch(err => console.error(err));
 
-  const buf = Buffer.from(fileJson.content, 'base64');
-  const fileContent = buf.toString("utf-8");
-  const seriesJson = JSON.parse(fileContent);
+  let seriesJson: SeriesData;
+
+  if (fileJson?.message === 'Not Found' || fileJson?.status === 404) {
+    seriesJson = {
+      name: dir
+    }
+  } else {
+    const buf = Buffer.from(fileJson.content, 'base64');
+    const fileContent = buf.toString("utf-8");
+    seriesJson = JSON.parse(fileContent);
+  }
 
   return {
     posts: postsProps.sort(compareSeriesPosts),
-    meta: seriesJson as SeriesData
+    meta: seriesJson
   }
 })
 

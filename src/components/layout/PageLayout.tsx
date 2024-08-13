@@ -33,7 +33,7 @@ export function SectionNoP({ children }: { children?: React.ReactNode }) {
 }
 
 export function Title({ children }: { children: React.ReactNode }) {
-  return <h1 className="my-4 text-3xl">
+  return <h1 className="transition-colors my-4 text-3xl dark:text-white">
     {children}
   </h1>
 }

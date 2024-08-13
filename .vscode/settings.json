@@ -5,9 +5,11 @@
     "getposts",
     "hljs",
     "isirmt",
+    "nextjs",
     "opengraph",
     "recaptcha",
     "rehype",
-    "tabler"
+    "tabler",
+    "toploader"
   ]
 }

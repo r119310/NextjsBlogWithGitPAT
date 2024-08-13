@@ -31,17 +31,17 @@ export default function ThemeSelector() {
   }
 
   return (
-    <div className="group relative">
+    <div className="group relative z-auto">
       <button
         onClick={handleThemeToggle}
         className="transition-colors size-6 bg-gray-100 flex justify-center items-center rounded-3xl dark:bg-slate-800"
       >
         {theme ? <span className={`${theme.icon} size-4`} /> : null}
       </button>
-      <div className="transition-colors drop-shadow-lg gap-1 absolute hidden flex-col top-5 group-hover:flex bg-gray-200 px-1.5 py-2 rounded-3xl dark:bg-slate-700 -left-2">
+      <div className="transition-colors drop-shadow-lg gap-1 absolute z-30 hidden flex-col top-5 group-hover:flex bg-gray-200 px-1.5 py-2 rounded-3xl dark:bg-slate-700 -left-2">
         {themeFunctions.map((item, i) => (
           <button
-            className="transition-colors hover:bg-gray-300 dark:hover:bg-slate-600 rounded-3xl size-7 items-center flex justify-center"
+            className="relative z-auto transition-colors hover:bg-gray-300 dark:hover:bg-slate-600 rounded-3xl size-7 items-center flex justify-center"
             key={i}
             onClick={() => {
               item.func();

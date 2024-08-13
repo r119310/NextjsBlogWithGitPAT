@@ -41,7 +41,7 @@ const H2 = ({ node, ...props }:
   HTMLAttributes<HTMLHeadingElement> &
   ExtraProps) => {
   return (
-    <div className="transition-colors scroll-mt-16 border-b mb-4 dark:border-slate-700" id={node!.position?.start.line.toString()}>
+    <div className="transition-colors scroll-mt-16 border-b mb-4 dark:border-slate-700 dark:text-white" id={node!.position?.start.line.toString()}>
       <h2 {...props}>{props.children}</h2>
     </div>
   );
@@ -52,7 +52,7 @@ const H3 = ({ node, ...props }:
   HTMLAttributes<HTMLHeadingElement> &
   ExtraProps) => {
   return (
-    <h3 {...props} className="scroll-mt-16"
+    <h3 {...props} className="transition-colors scroll-mt-16 dark:text-white"
       id={node!.position?.start.line.toString()}>{props.children}</h3>
   );
 };
@@ -104,8 +104,20 @@ const Pre = ({ children, ...props }:
   )
 }
 
+const A = ({ href, ...props }:
+  ClassAttributes<HTMLAnchorElement> &
+  HTMLAttributes<HTMLAnchorElement> &
+  { href?: string }) => {
+  const isInternalLink = href?.startsWith("/");
+  return isInternalLink ? (
+    <a href={href} {...props}>{props.children}</a>
+  ) : (
+    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>{props.children}</a>
+  );
+};
+
 export const components: Partial<Components> = {
-  pre: Pre, h2: H2, h3: H3, img: Img
+  pre: Pre, h2: H2, h3: H3, img: Img, a: A
 }
 
 export function PostMarkdown({ content }: { content: string }) {
