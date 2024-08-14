@@ -1,4 +1,4 @@
-import { getPostsProps } from '@/lib/getposts';
+import { getPostsProps } from '@/lib/getPosts';
 import { Main, SectionNoP, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import FavoritePosts from '@/components/post/FavoritePosts';

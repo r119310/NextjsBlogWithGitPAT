@@ -1,6 +1,6 @@
 import PostCard from '@/components/post/PostCard';
 import TipsCard from '@/components/TipsCard';
-import { getSeries } from '@/lib/getposts';
+import { getSeries } from '@/lib/getPosts';
 import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';

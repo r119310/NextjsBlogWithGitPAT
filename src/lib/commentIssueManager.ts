@@ -1,6 +1,6 @@
 import { Comment, Issue } from "@/static/issueType";
 import { cache } from "react";
-import { getHeaders, getNext } from "./fetchingInits";
+import { fetchAllData, getHeaders, getNext } from "./fetchingFunc";
 
 const issueCreationMap: Record<string, Promise<void> | undefined> = {};
 const gitIssuePath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`;
@@ -9,11 +9,7 @@ const getFilteredIssuePath = (slug: string) =>
   `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title&state=all`;
 
 async function getIssue(slug: string, revalidate: number = 120) {
-  const data = await fetch(getFilteredIssuePath(slug), {
-    ...getHeaders(), ...getNext(revalidate),
-  })
-    .then((res) => res.json())
-    .catch((e) => console.error(e));
+  const data = await fetchAllData(getFilteredIssuePath(slug), revalidate);
 
   if (data && data.length > 0) {
     const issue = data.find((item: any) => item.title === slug);
@@ -89,7 +85,7 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
       state: targetIssue.state
     };
   } else {
-    await createIssue(slug);
+    createIssue(slug);
     return {
       comments: [],
       locked: false,

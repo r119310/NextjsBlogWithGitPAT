@@ -1,6 +1,6 @@
 import React, { cache } from "react";
 import '@/styles/post/style.css'
-import { getPost } from "@/lib/getposts";
+import { getPost } from "@/lib/getPosts";
 import PostIndex from "@/components/post/PostIndex";
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';

@@ -1,6 +1,6 @@
 import TagBanner from '@/components/tag/TagBanner';
 import TipsCard from '@/components/TipsCard';
-import { getPostsProps } from '@/lib/getposts';
+import { getPostsProps } from '@/lib/getPosts';
 import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';

@@ -1,4 +1,4 @@
-import { getSeries } from "@/lib/getposts";
+import { getSeries } from "@/lib/getPosts";
 import Link from "next/link";
 import PostCard from "./post/PostCard";
 import { ExplainingBanner } from "./UserBanner";

@@ -2,7 +2,7 @@ import React from "react";
 import '@/styles/post/style.css'
 import TagBanner from "@/components/tag/TagBanner";
 import DateCard from "@/components/post/DateCard";
-import { getSeries } from "@/lib/getposts";
+import { getSeries } from "@/lib/getPosts";
 import { PostData } from "@/static/postType";
 import SeriesCard from "../SeriesCard";
 import { Issue } from "@/static/issueType";
@@ -31,11 +31,11 @@ export default async function Article({ data, content, issue, slug }: { data: Po
           <TagBanner tag={tag} key={i} />)}
       </div> :
       <></>}
-    {series ?
+    {series && data.series && slug ?
       <div className="mt-5">
         <SeriesCard
-          slug={data.series as string}
-          index={series.posts.findIndex((item) => item.data.title === data.title && item.data.date === data.date)}
+          slug={data.series}
+          index={series.posts.findIndex((item) => item.slug === slug)}
         />
       </div> : <></>}
     <PostMarkdown content={content} />

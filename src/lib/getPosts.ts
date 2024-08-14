@@ -5,7 +5,7 @@ import type { Post, PostData, SeriesData } from '@/static/postType';
 import { comparePosts, compareSeriesPosts } from './postSorter';
 import { makeExcerpt } from './textFormatter';
 import { notFound } from 'next/navigation';
-import { getHeaders, getNext } from './fetchingInits';
+import { fetchAllData, getHeaders, getNext } from './fetchingFunc';
 
 const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/contents`
 
@@ -36,53 +36,52 @@ const getPostContent = cache(async (path: string): Promise<{ data: PostData; con
 })
 
 export const getSeriesProps = cache(async () => {
-  const targetDir = process.env.GIT_POSTS_DIR as string;
-  const data = await fetch(`${gitContentPath}/${targetDir}`, {
-    ...getHeaders(), ...getNext(3600)
-  }).then(res => res.json()).catch(err => console.error(err));
-  const seriesArray = (data as any[])
+  const targetDir = process.env.GIT_POSTS_DIR!;
+  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 3600);
+  const seriesArray = data
     .filter((item) => item.type === "dir")
     .map((item) => item.name as string)
 
   return seriesArray;
 });
 
+async function createPostFromFile(item: any, dir: string): Promise<Post | null> {
+  const { data, excerpt } = await getPostContent(`${dir}/${item.name}`);
+  if (data.title) {
+    return {
+      slug: item.path.replace(`${process.env.GIT_POSTS_DIR}/`, "").replace('.md', ''),
+      data,
+      excerpt,
+    };
+  }
+  return null;
+}
+
+async function createPostsFromDirectory(item: any): Promise<Post[]> {
+  const dirPath = `${process.env.GIT_POSTS_DIR}/${item.name}`;
+  const dirContent = await fetchAllData(`${gitContentPath}/${dirPath}`, 3600);
+
+  const markdownFiles = dirContent.filter((subItem) => subItem.type === "file" && subItem.name.endsWith('.md'));
+  const dirFiles = await Promise.all(markdownFiles.map(subItem => createPostFromFile(subItem, dirPath)));
+
+  return dirFiles.filter((post): post is Post => post !== null);
+}
+
 export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
-  const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR as string;
-  const data = await fetch(`${gitContentPath}/${targetDir}`, {
-    ...getHeaders(), ...getNext(3600)
-  }).then(res => res.json()).catch(err => console.error(err));
+  const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR!;
+  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 3600);
 
   const posts: Post[] = [];
+
   for (const item of data) {
-    if (item.type === "file") {
-      // ファイルの場合、配列に追加
-      const { data, excerpt } = await getPostContent(`${targetDir}/${item.name}`);
-      if (data.title) {  // titleを持っていない場合は除外
-        posts.push({
-          slug: (item.path as string).replace(`${process.env.GIT_POSTS_DIR}/`, "").replace('.md', ''),
-          data,
-          excerpt,
-        });
+    if (item.type === "file" && item.name.endsWith('.md')) {
+      const post = await createPostFromFile(item, targetDir);
+      if (post) {
+        posts.push(post);
       }
     } else if (!dir && item.type === "dir") {
-      // dir指定なしでディレクトリがあった場合、もう一度fetchし、配列に追加
-      const dirContent = await fetch(`${gitContentPath}/${process.env.GIT_POSTS_DIR}/${item.name}`, {
-        ...getHeaders(), ...getNext(3600)
-      }).then(res => res.json()).catch(err => console.error(err));
-
-      const markdownFiles = (dirContent as any[]).filter((subItem) => subItem.type === "file" && subItem.name.endsWith('.md'));
-
-      for (const subItem of markdownFiles) {
-        const { data, excerpt } = await getPostContent(`${process.env.GIT_POSTS_DIR}/${item.name}/${subItem.name}`);
-        if (data.title) {  // titleを持っていない場合は除外
-          posts.push({
-            slug: (subItem.path as string).replace(`${process.env.GIT_POSTS_DIR}/`, "").replace('.md', ''),
-            data,
-            excerpt,
-          });
-        }
-      }
+      const dirPosts = await createPostsFromDirectory(item);
+      posts.push(...dirPosts);
     }
   }
 

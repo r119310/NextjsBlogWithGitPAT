@@ -1,5 +1,5 @@
 {
-  "name": "isirmt-tech",
+  "name": "nextjs_blog_with_git_pat",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -22,7 +22,6 @@
     "react-google-recaptcha-v3": "^1.10.1",
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^15.5.0",
-    "rehype-katex": "^7.0.0",
     "rehype-raw": "^7.0.0",
     "rehype-sanitize": "^6.0.0",
     "remark": "^15.0.1",
@@ -33,7 +32,6 @@
   "devDependencies": {
     "@iconify/json": "^2.2.234",
     "@tailwindcss/typography": "^0.5.13",
-    "@types/grecaptcha": "^3.0.9",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -43,7 +41,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
-    "sass": "^1.77.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

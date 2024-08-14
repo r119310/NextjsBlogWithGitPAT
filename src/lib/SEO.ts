@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function generateMetadataTemplate(props: Props): Metadata {
-  const { title, description, url, imageURL, keywords, type } = props;
+  const { title, description, url, keywords, type } = props;
   const outputTitle = title
     ? `${title} - ${siteName}`
     : siteName;

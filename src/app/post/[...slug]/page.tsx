@@ -1,6 +1,6 @@
 import React, { cache } from "react";
 import '@/styles/post/style.css'
-import { getPost } from "@/lib/getposts";
+import { getPost } from "@/lib/getPosts";
 import PostIndex from "@/components/post/PostIndex";
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
@@ -10,13 +10,13 @@ import ShareButtons from "@/components/ShareButtons";
 import { getCommentList } from "@/lib/commentIssueManager";
 
 const getFileContent = cache(async (path: string) => {
-  const decodedSlug = decodeURIComponent(path);
-  const postPath = `${process.env.GIT_POSTS_DIR!}/${decodedSlug}.md`
+  const postPath = `${process.env.GIT_POSTS_DIR!}/${path}.md`
   return await getPost(postPath);
 })
 
 export async function generateMetadata({ params }: { params: { slug: string[] } }): Promise<Metadata> {
-  const { data, excerpt } = await getFileContent(params.slug.join('/'));
+  const slug = decodeURIComponent(params.slug.join('/'));
+  const { data, excerpt } = await getFileContent(slug);
 
   return generateMetadataTemplate({
     title: `${data.title}`,
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 }
 
 export default async function Post({ params }: { params: { slug: string[] } }) {
-  const slug = params.slug.join('/')
+  const slug = decodeURIComponent(params.slug.join('/'));
   const { data, content } = await getFileContent(slug);
   const issue = await getCommentList(slug);
 

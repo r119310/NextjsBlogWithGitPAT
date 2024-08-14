@@ -1,4 +1,4 @@
-import { getPostsProps } from "@/lib/getposts"
+import { getPostsProps } from "@/lib/getPosts"
 import SearchBox from "./SearchBox";
 
 export default async function SearchBoxWrapper() {

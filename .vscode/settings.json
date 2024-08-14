@@ -4,12 +4,15 @@
     "frontmatter",
     "getposts",
     "hljs",
+    "iconify",
     "isirmt",
+    "maxage",
     "nextjs",
     "opengraph",
     "recaptcha",
     "rehype",
     "tabler",
+    "tailwindcss",
     "toploader"
   ]
 }

@@ -1,7 +1,7 @@
 import PostCard from '@/components/post/PostCard';
 import SubscribeTagButton from '@/components/tag/SubscribeTagButton';
 import TipsCard from '@/components/TipsCard';
-import { getPostsProps } from '@/lib/getposts';
+import { getPostsProps } from '@/lib/getPosts';
 import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
