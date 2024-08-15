@@ -66,7 +66,7 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
 
   if (targetIssue) {
     const data = await fetch(targetIssue.commentsURL, {
-      ...getHeaders(), ...getNext(5),
+      ...getHeaders(), ...getNext(20),
     })
       .then((res) => res.json())
       .catch((e) => console.error(e));

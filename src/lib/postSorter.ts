@@ -2,6 +2,11 @@ import type { Post } from "@/static/postType";
 
 const numberPattern = /^\d+\.md$/;
 
+export type TagWithLatestDate = {
+  tag: string;
+  latestDate: string | null;
+};
+
 export function compareSeriesPosts(a: Post, b: Post): number {
   const isANumbered = numberPattern.test(a.slug);
   const isBNumbered = numberPattern.test(b.slug);
@@ -30,4 +35,33 @@ export function comparePosts(a: Post, b: Post): number {
   const dateB = b.data.date ? new Date(b.data.date).getTime() : -Infinity;
 
   return dateB - dateA;
+}
+
+export function getTagsWithLatestDate(posts: Post[]): TagWithLatestDate[] {
+  const tagMap: Record<string, string | null> = {};
+
+  posts.forEach((post) => {
+    const { tags, date } = post.data;
+    if (tags) {
+      tags.forEach((tag) => {
+        if (!tagMap[tag]) {
+          tagMap[tag] = date || null;
+        } else if (date && new Date(date) > new Date(tagMap[tag]!)) {
+          tagMap[tag] = date;
+        }
+      });
+    }
+  });
+
+  return Object.keys(tagMap).map((tag) => ({
+    tag,
+    latestDate: tagMap[tag],
+  }));
+}
+
+export function getTags(posts: Post[]) {
+  return Array.from(new Set(posts
+    .filter((post) => post.data.tags)
+    .flatMap((post) => post.data.tags as string[])
+  ));
 }

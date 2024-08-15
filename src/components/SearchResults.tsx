@@ -1,16 +1,14 @@
 import { Post } from "@/static/postType";
 import PostCard from "./post/PostCard";
 import TagBanner from "./tag/TagBanner";
+import { getTags } from "@/lib/postSorter";
 
 export default function SearchResult({ posts, keywords }: { posts: Post[], keywords: string[] }) {
-  const tags: string[] = Array.from(new Set(posts
-    .filter((post) => post.data.tags)
-    .flatMap((post) => post.data.tags as string[])
-  ));
+  const tags = getTags(posts);
+
   const filteredPosts = posts.filter(post =>
     keywords.every(keyword => (post.data.title as string).toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
   );
-
   const filteredTags = tags.filter(tag =>
     keywords.every(keyword => tag.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
   );

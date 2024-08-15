@@ -5,6 +5,7 @@ import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
+import { getTags } from '@/lib/postSorter';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -16,10 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TagList() {
   const posts = await getPostsProps();
-  const tags: string[] = Array.from(new Set(posts
-    .filter((post) => post.data.tags)
-    .flatMap((post) => post.data.tags as string[])
-  ));
+  const tags = getTags(posts);
 
   return <Main>
     <Side>
