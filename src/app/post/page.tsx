@@ -5,7 +5,7 @@ import { getPostsProps } from '@/lib/getPosts';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import { Metadata } from 'next';
-import Link from 'next/link';
+import FeedButton from '@/components/post/FeedButton';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -24,11 +24,7 @@ export default async function PostList() {
     </Side>
     <Section>
       <Title>投稿一覧
-        <Link className='inline-block ml-3' target="_blank" rel="noopener noreferrer" href="/feed">
-          <span className='transition-colors inline-flex p-1 bg-blue-100 rounded-md border border-blue-400 group dark:bg-violet-700 dark:border-violet-400 dark:hover:bg-violet-600'>
-            <span className='transition-colors i-tabler-rss size-5 bg-blue-400 group-hover:bg-yellow-500 dark:bg-violet-400 dark:group-hover:bg-violet-400' />
-          </span>
-        </Link>
+        <FeedButton url='/feed' />
       </Title>
       <div className='flex flex-col gap-y-3'>
         {posts.map((post, i) => <PostCard post={post} key={i} />)}

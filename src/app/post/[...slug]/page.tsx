@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     title: `${data.title}`,
     description: `${excerpt}`,
     url: `/post/${params.slug.join('/')}`,
+    imageURL: `/api/ogp-posts?post=${slug}`,
     type: "article",
   });
 }

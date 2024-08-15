@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { getImage } from "@/lib/getPosts";
-import { ClassAttributes, HTMLAttributes } from "react";
+import { ClassAttributes, HTMLAttributes, Suspense } from "react";
 import ReactMarkdown, { Components, ExtraProps } from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -10,6 +10,7 @@ import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import CopyToClipboard from "./CopyToClipboard";
+import LoadingCircle from "../LoadingCircle";
 
 function getMimeType(path: string) {
   const ext = path.split('.').pop()?.toLowerCase();
@@ -64,7 +65,9 @@ const Img = ({ node, ...props }:
   const src = props.src as string || '';
   const alt = props.alt as string || '';
   if (src.startsWith(`/${process.env.GIT_IMAGES_DIR!}/`)) {
-    return <ExImg path={src} alt={alt} />
+    return <Suspense fallback={<LoadingCircle />}>
+      <ExImg path={src} alt={alt} />
+    </Suspense>
   } else
     return (
       <img {...props}>{props.children}</img>

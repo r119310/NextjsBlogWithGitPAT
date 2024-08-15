@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function generateMetadataTemplate(props: Props): Metadata {
-  const { title, description, url, keywords, type } = props;
+  const { title, description, url, imageURL, keywords, type } = props;
   const outputTitle = title
     ? `${title} - ${siteName}`
     : siteName;
@@ -21,20 +21,42 @@ export function generateMetadataTemplate(props: Props): Metadata {
     : siteDescription;
   const outputType: OpenGraphType = type ? type : "website";
 
-  const metadata: Metadata = {
+  let metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_URL!),
     authors: { name: author.name, url: author.url },
     title: outputTitle,
     description: outputDescription,
-    icons: "/favicon.ico",
+    icons: {
+      icon: "/favicon.ico",
+      other: [{
+        rel: "icon",
+        type: "image/x-icon",
+        url: "/favicon.ico"
+      },
+      {
+        url: "/feed",
+        rel: "alternate",
+        type: "application/atom+xml"
+      }]
+    },
     keywords,
     openGraph: {
       title: title ? title : siteName,
       description: outputDescription,
       url: url,
       siteName,
+      images: imageURL ?? undefined,
       type: outputType,
     },
   };
+
+  if (imageURL) metadata = {
+    ...metadata, twitter: {
+      card: "summary_large_image",
+      images: imageURL,
+      title: outputTitle,
+      description: outputDescription,
+    }
+  }
   return metadata;
 }

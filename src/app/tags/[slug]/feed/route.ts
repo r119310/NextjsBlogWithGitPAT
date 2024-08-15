@@ -9,18 +9,20 @@ export const revalidate = 1200;
 
 const baseURL = process.env.NEXT_PUBLIC_URL!;
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, context: { params: { slug: string } }) {
+  const slug = decodeURIComponent(context.params.slug);
   const feed = new Rss({
-    title: `${siteName}の新着投稿`,
-    description: `「${siteName}」の投稿フィード`,
-    feed_url: `${baseURL}/feed`,
+    title: `${siteName}のタグ「#${slug}」の新着投稿`,
+    description: `「${siteName}」のタグ「#${slug}」の投稿フィード`,
+    feed_url: `${baseURL}/tags/${context.params.slug}/feed`,
     site_url: baseURL,
     language: 'ja'
   });
 
   const posts = await getPostsProps();
+  const filteredPosts = posts.filter((post) => post.data.tags ? post.data.tags.some((tag) => tag === slug) : false);
 
-  posts.forEach((post) => feed.item({
+  filteredPosts.forEach((post) => feed.item({
     title: post.data.title,
     description: post.excerpt,
     url: `${baseURL}/post/${encodeURIComponent(post.slug)}`,

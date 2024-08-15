@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LRUCache } from 'lru-cache';
+import { fetchAllData } from '@/lib/fetchingFunc';
 
 const rateLimit = new LRUCache<string, number>({
   max: 1000,
@@ -47,10 +48,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const issueResponse = await fetch(`https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`, {
-      headers: getHeaders(),
-    });
-    const issues = await issueResponse.json();
+    const issues = await fetchAllData(`https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`, 5);
     const issue = issues.find((issue: any) => issue.title === slug);
 
     if (!issue) {
