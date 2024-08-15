@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# nextjs_blog_with_git_pat
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/14.2.5-Next.js-000000.svg?logo=next.js&style=popout)
+![TypeScript](https://img.shields.io/badge/-Typescript-007ACC.svg?logo=typescript&style=popout)
+![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-fff.svg?logo=tailwindcss&style=popout)
+![GitHub API](https://img.shields.io/badge/-GitHub%20API-181717.svg?logo=github&style=popout)
+![pnpm](https://img.shields.io/badge/-pnpm-fff.svg?logo=pnpm&style=popout)
 
-First, run the development server:
+[日本語版README](/README-jp.md)
+
+## Overview
+
+This project dynamically builds pages as a blog by retrieving `.md` files from a specified folder in another repository.
+
+## Development under the Development Environment
+
+First, install the necessary packages.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next, run the development environment.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Environment Variables
 
-## Learn More
+Set the following environment variables in your local environment (`.env.local`).
 
-To learn more about Next.js, take a look at the following resources:
+- GIT_USERNAME: Target username
+- GIT_REPO: Target repository name
+- GIT_POSTS_DIR: Folder in the target repository where the MD files are located
+- GIT_IMAGES_DIR: Image folder in the target repository
+- GIT_PROFILE_PATH: Path to the profile MD file in the target repository
+- GIT_TOKEN: GitHub API (PAT) token
+- NEXT_PUBLIC_RECAPTCHA_SITE_KEY: reCAPTCHA site key
+- RECAPTCHA_SECRET_KEY: reCAPTCHA secret key
+- GTM_ID: Google Tag Manager
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You can also change the public URL in `.env.production`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Example of a Blog Repository
 
-## Deploy on Vercel
+```tree:Directory structure for articles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+isirmt/example_blog_posts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+├── posts/
+│   ├── [Series Name]/
+│   │   ├── (meta.json)
+│   │   ├── 1.md
+│   │   ├── 2.md
+│   │   └── ...
+│   └── ArticleName.md
+├── img/
+│   ├── [Optional]
+│   └── Optional
+└── profile/
+    └── index.md
+```
+
+In this case, set the environment variables as follows:
+
+- GIT_USERNAME=isirmt
+- GIT_REPO=example_blog_posts
+- GIT_POSTS_DIR=posts
+- GIT_IMAGES_DIR=img
+- GIT_PROFILE_PATH=profile/index.md
+
+Also, modify `/src/static/constant.ts` as needed.
+
+## Build
+
+Execute the following commands:
+
+```bash
+pnpm build
+```
+
+```bash
+pnpm start
+```
