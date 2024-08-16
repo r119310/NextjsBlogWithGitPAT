@@ -71,19 +71,20 @@ export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
   const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR!;
   const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 3600);
 
-  const posts: Post[] = [];
-
-  for (const item of data) {
+  const postsPromises = data.map(async (item) => {
     if (item.type === "file" && item.name.endsWith('.md')) {
-      const post = await createPostFromFile(item, targetDir);
-      if (post) {
-        posts.push(post);
-      }
+      return createPostFromFile(item, targetDir);
     } else if (!dir && item.type === "dir") {
-      const dirPosts = await createPostsFromDirectory(item);
-      posts.push(...dirPosts);
+      return createPostsFromDirectory(item);
     }
-  }
+    return null;
+  });
+
+  const postsResults = await Promise.all(postsPromises);
+
+  const posts = postsResults
+    .filter((post): post is Post | Post[] => post !== null)
+    .flat();
 
   return posts.sort(comparePosts);
 });

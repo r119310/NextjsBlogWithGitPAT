@@ -29,8 +29,12 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
 export default async function Post({ params }: { params: { slug: string[] } }) {
   const slug = decodeURIComponent(params.slug.join('/'));
-  const { data, content } = await getFileContent(slug);
-  const issue = await getCommentList(slug);
+  const [postContent, issue] = await Promise.all([
+    getFileContent(slug),
+    getCommentList(slug),
+  ]);
+
+  const { data, content } = postContent;
 
   return <Main>
     <SideMDShown>

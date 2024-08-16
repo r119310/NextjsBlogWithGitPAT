@@ -29,11 +29,6 @@ export function generateMetadataTemplate(props: Props): Metadata {
     icons: {
       icon: "/favicon.ico",
       other: [{
-        rel: "icon",
-        type: "image/x-icon",
-        url: "/favicon.ico"
-      },
-      {
         url: "/feed",
         rel: "alternate",
         type: "application/atom+xml"
@@ -45,7 +40,15 @@ export function generateMetadataTemplate(props: Props): Metadata {
       description: outputDescription,
       url: url,
       siteName,
-      images: imageURL ?? undefined,
+      images: imageURL ? {
+        url: imageURL,
+        width: 1200,
+        height: 630
+      } : {
+        url: `${process.env.NEXT_PUBLIC_URL!}/ogp.png`,
+        width: 455,
+        height: 455
+      },
       type: outputType,
     },
   };
@@ -54,6 +57,14 @@ export function generateMetadataTemplate(props: Props): Metadata {
     ...metadata, twitter: {
       card: "summary_large_image",
       images: imageURL,
+      title: outputTitle,
+      description: outputDescription,
+    }
+  };
+  else metadata = {
+    ...metadata, twitter: {
+      card: "summary",
+      images: `${process.env.NEXT_PUBLIC_URL!}/ogp.png`,
       title: outputTitle,
       description: outputDescription,
     }

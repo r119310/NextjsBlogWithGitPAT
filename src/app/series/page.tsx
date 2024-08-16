@@ -4,7 +4,7 @@ import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
-import SeriesCard from '@/components/SeriesCard';
+import SeriesCard from '@/components/post/SeriesCard';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({

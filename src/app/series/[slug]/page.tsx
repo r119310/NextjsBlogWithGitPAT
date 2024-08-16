@@ -5,10 +5,15 @@ import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
+import { cache } from 'react';
+
+const getContents = cache(async (slug: string) => {
+  return getSeries(slug);
+})
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
-  const series = await getSeries(slug);
+  const series = await getContents(slug);
 
   return generateMetadataTemplate({
     title: `「${series.meta.name}」シリーズの投稿一覧`,
@@ -19,7 +24,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function PostListWithTag({ params }: { params: { slug: string } }) {
   const slug = decodeURIComponent(params.slug);
-  const series = await getSeries(slug);
+  const series = await getContents(slug);
 
   const posts = series.posts;
 

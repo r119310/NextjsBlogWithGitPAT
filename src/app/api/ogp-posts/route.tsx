@@ -24,7 +24,8 @@ export async function GET(req: NextRequest) {
   }}>
     <div style={{
       width: "70%",
-      lineHeight: "1.2"
+      lineHeight: "1.2",
+      fontWeight: "bold"
     }}>{data.title}</div>
   </div>,
     {

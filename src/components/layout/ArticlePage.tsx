@@ -4,12 +4,12 @@ import TagBanner from "@/components/tag/TagBanner";
 import DateCard from "@/components/post/DateCard";
 import { getSeries } from "@/lib/getPosts";
 import { PostData } from "@/static/postType";
-import SeriesCard from "../SeriesCard";
 import { Issue } from "@/static/issueType";
 import { CommentForm, CommentFormNoPosting } from "../post/CommentForm";
 import { PostMarkdown } from "../post/MarkdownElements";
 import { ExplainingBanner } from "../UserBanner";
 import Link from "next/link";
+import SeriesCard from "../post/SeriesCard";
 
 export default async function Article({ data, content, issue, slug }: { data: PostData, content: string, issue?: Issue, slug?: string }) {
   const series = data.series ? await getSeries(data.series) : undefined;
