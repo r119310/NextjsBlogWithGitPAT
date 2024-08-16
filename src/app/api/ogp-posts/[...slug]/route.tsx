@@ -1,15 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { ImageResponse } from "next/og";
 import { getPost } from "@/lib/getPosts";
-import TagBanner from "@/components/tag/TagBanner";
 
-export async function GET(req: NextRequest) {
-  const param = new URL(req.url).searchParams.get("post")
-  if (!param) {
-    return NextResponse.json({ error: 'Missing post params' }, { status: 400 });
-  }
-
-  const slug = decodeURIComponent(param);
+export async function GET(req: NextRequest, context: { params: { slug: string[] } }) {
+  const slug = decodeURIComponent(context.params.slug.join('/'));
   const { data } = await getPost(`${process.env.GIT_POSTS_DIR!}/${slug}.md`);
 
   return new ImageResponse(<div style={{

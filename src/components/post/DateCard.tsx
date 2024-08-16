@@ -1,7 +1,7 @@
 export default function DateCard({ date }: { date?: string }) {
   const formattedDate = date ? new Date(date.replace(/-/g, "/")) : undefined;
 
-  return <div className="flex items-center">
+  return <time dateTime={formattedDate?.toISOString()}><div className="flex items-center">
     <span className='-rotate-90 text-sm w-6 ml-2 translate-y-4 leading-4'>
       {formattedDate ? formattedDate.getFullYear() : ""}
     </span>
@@ -11,5 +11,5 @@ export default function DateCard({ date }: { date?: string }) {
         <div className='text-2xl leading-6'>{formattedDate.getDate()}</div>
       </div> : <span className='text-3xl'>🎉</span>}
     </div>
-  </div>
+  </div></time>
 }
