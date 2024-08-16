@@ -19,7 +19,7 @@ export default function Header() {
         </div>
       </div>
       <div className="hidden md:block"><SearchBoxWrapper /></div>
-      <div className="flex flex-row-reverse gap-3">
+      <div className="flex flex-row-reverse gap-1 sm:gap-3">
         <ThemeSelector />
         <span><Link className="hover:underline" href="/tags">タグ</Link></span>
         <span><Link className="hover:underline" href="/series">シリーズ</Link></span>

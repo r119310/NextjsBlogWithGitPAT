@@ -11,7 +11,7 @@ const gitContentPath = `https://api.github.com/repos/${process.env.GIT_USERNAME!
 
 const getPostContent = cache(async (path: string): Promise<{ data: PostData; content: string; excerpt: string }> => {
   const fileJson = await fetch(`${gitContentPath}/${path}`, {
-    ...getHeaders(), ...getNext(3600)
+    ...getHeaders(), ...getNext(1200)
   }).then(res => res.json()).catch(err => console.error(err))
 
   if (fileJson?.message === 'Not Found' || fileJson?.status === 404) {
@@ -37,7 +37,7 @@ const getPostContent = cache(async (path: string): Promise<{ data: PostData; con
 
 export const getSeriesProps = cache(async () => {
   const targetDir = process.env.GIT_POSTS_DIR!;
-  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 3600);
+  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 1200);
   const seriesArray = data
     .filter((item) => item.type === "dir")
     .map((item) => item.name as string)
@@ -59,7 +59,7 @@ async function createPostFromFile(item: any, dir: string): Promise<Post | null> 
 
 async function createPostsFromDirectory(item: any): Promise<Post[]> {
   const dirPath = `${process.env.GIT_POSTS_DIR}/${item.name}`;
-  const dirContent = await fetchAllData(`${gitContentPath}/${dirPath}`, 3600);
+  const dirContent = await fetchAllData(`${gitContentPath}/${dirPath}`, 1200);
 
   const markdownFiles = dirContent.filter((subItem) => subItem.type === "file" && subItem.name.endsWith('.md'));
   const dirFiles = await Promise.all(markdownFiles.map(subItem => createPostFromFile(subItem, dirPath)));
@@ -69,7 +69,7 @@ async function createPostsFromDirectory(item: any): Promise<Post[]> {
 
 export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
   const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR!;
-  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 3600);
+  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 1200);
 
   const postsPromises = data.map(async (item) => {
     if (item.type === "file" && item.name.endsWith('.md')) {
@@ -93,7 +93,7 @@ export const getSeries = cache(async (dir: string) => {
   const postsProps = await getPostsProps(dir);
   const targetDir = `${process.env.GIT_POSTS_DIR}/${dir}`;
   const fileJson = await fetch(`${gitContentPath}/${targetDir}/meta.json`, {
-    ...getHeaders(), ...getNext(3600)
+    ...getHeaders(), ...getNext(1200)
   }).then(res => res.json()).catch(err => console.error(err));
 
   let seriesJson: SeriesData;
