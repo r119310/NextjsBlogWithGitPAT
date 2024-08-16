@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import { getTags } from '@/lib/postSorter';
+import FavoriteTags from '@/components/tag/FavoriteTags';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -25,7 +26,10 @@ export default async function TagList() {
     </Side>
     <Section>
       <Title>タグ一覧</Title>
-      <div className='flex flex-wrap gap-3'>
+      <h2>「お気に入り」のタグ一覧</h2>
+      <FavoriteTags />
+      <h2>タグ一覧</h2>
+      <div className='flex flex-wrap gap-3 my-3'>
         {tags.map((tag, i) => <TagBanner tag={tag} key={i} />)}
       </div>
     </Section>

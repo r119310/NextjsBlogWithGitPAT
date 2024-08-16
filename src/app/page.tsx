@@ -8,6 +8,7 @@ import SearchBoxWrapper from '@/components/SearchBoxWrapper';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
 import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
+import PostCard from '@/components/post/PostCard';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -36,6 +37,10 @@ export default async function Blogs() {
         <FavoriteTags />
         <h2>「お気に入り」登録タグの投稿一覧</h2>
         <FavoritePosts posts={posts} />
+        <h2>最新の記事</h2>
+        <div className='flex flex-col gap-y-3 my-3'>
+          {posts.slice(0, 5).map((post, i) => <PostCard post={post} key={i} />)}
+        </div>
         <div className='items-center justify-center flex flex-col'>
           <InnerLinkBlueButton path='/post' text='投稿一覧へ' />
         </div>
