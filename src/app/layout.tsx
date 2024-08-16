@@ -19,6 +19,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="ja">
       <head prefix="og: http://ogp.me/ns#">
         <script dangerouslySetInnerHTML={{ __html: `(${preloadTheme.toString()})()` }} />
+        <link rel="alternate" href="/feed" type="application/atom+xml" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
       </head>
       <body className={`transition-colors ${mplus2.className} min-h-vh bg-gray-100 dark:bg-slate-900 dark:text-slate-400`}>
         <NextTopLoader

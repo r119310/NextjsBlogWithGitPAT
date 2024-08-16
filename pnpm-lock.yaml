@@ -71,6 +71,9 @@ importers:
       rss:
         specifier: ^1.2.2
         version: 1.2.2
+      schema-dts:
+        specifier: ^1.1.2
+        version: 1.1.2(typescript@5.5.4)
     devDependencies:
       '@iconify/json':
         specifier: ^2.2.234
@@ -1945,6 +1948,11 @@ packages:
 
   scheduler@0.23.2:
     resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
+
+  schema-dts@1.1.2:
+    resolution: {integrity: sha512-MpNwH0dZJHinVxk9bT8XUdjKTxMYrA5bLtrrGmFA6PTLwlOKnhi67XoRd6/ty+Djt6ZC0slR57qFhZDNMI6DhQ==}
+    peerDependencies:
+      typescript: '>=4.1.0'
 
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
@@ -4631,6 +4639,10 @@ snapshots:
   scheduler@0.23.2:
     dependencies:
       loose-envify: 1.4.0
+
+  schema-dts@1.1.2(typescript@5.5.4):
+    dependencies:
+      typescript: 5.5.4
 
   section-matter@1.0.0:
     dependencies:

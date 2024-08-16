@@ -12,20 +12,14 @@ import { IconDescriptor, Icons } from 'next/dist/lib/metadata/types/metadata-typ
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
 
-  const baseMetadata = generateMetadataTemplate({
-    title: `タグ「${slug}」の投稿一覧`,
-    description: `「${siteName}」内のタグ「${slug}」が付いた投稿一覧`,
-    url: `/tags/${params.slug}`
-  });
-
-  const icons = baseMetadata.icons as Icons;
-
   return {
-    ...baseMetadata,
+    ...generateMetadataTemplate({
+      title: `タグ「${slug}」の投稿一覧`,
+      description: `「${siteName}」内のタグ「${slug}」が付いた投稿一覧`,
+      url: `/tags/${params.slug}`
+    }),
     icons: {
-      ...icons,
       other: [
-        ...(icons.other as IconDescriptor[]),
         {
           url: `/tags/${params.slug}/feed`,
           rel: "alternate",

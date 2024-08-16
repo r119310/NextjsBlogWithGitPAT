@@ -8,6 +8,9 @@ import Article from "@/components/layout/ArticlePage";
 import { Main, SideMDShown } from "@/components/layout/PageLayout";
 import ShareButtons from "@/components/ShareButtons";
 import { getCommentList } from "@/lib/commentIssueManager";
+import { BlogPosting, WithContext } from "schema-dts";
+import { author } from "@/static/constant";
+import JsonLd from "@/components/JsonLd";
 
 const getFileContent = cache(async (path: string) => {
   const postPath = `${process.env.GIT_POSTS_DIR!}/${path}.md`
@@ -23,6 +26,7 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     description: `${excerpt}`,
     url: `/post/${params.slug.join('/')}`,
     imageURL: `/api/ogp-posts/${slug}`,
+    keywords: data.tags,
     type: "article",
   });
 }
@@ -36,7 +40,21 @@ export default async function Post({ params }: { params: { slug: string[] } }) {
 
   const { data, content } = postContent;
 
+  const jsonLd: WithContext<BlogPosting> = {
+    '@context': "https://schema.org",
+    '@type': "BlogPosting",
+    headline: data.title,
+    datePublished: data.date ? new Date(data.date).toISOString() : undefined,
+    author: {
+      "@type": "Person",
+      name: author.name,
+      url: author.url
+    },
+    keywords: data.tags
+  }
+
   return <Main>
+    <JsonLd jsonLd={jsonLd} />
     <SideMDShown>
       <PostIndex content={content} title={data.title} />
       <div className="p-3">

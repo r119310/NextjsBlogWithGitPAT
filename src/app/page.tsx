@@ -9,6 +9,8 @@ import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
 import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
 import PostCard from '@/components/post/PostCard';
+import { WebSite, WithContext } from 'schema-dts';
+import JsonLd from '@/components/JsonLd';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -19,7 +21,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Blogs() {
   const posts = await getPostsProps();
 
+  const jsonLd: WithContext<WebSite> = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteName,
+    url: process.env.NEXT_PUBLIC_URL!,
+  }
+
   return <Main>
+    <JsonLd jsonLd={jsonLd} />
     <Side>
       <TipsCard>
         ブログへようこそ！<br />

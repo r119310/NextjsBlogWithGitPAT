@@ -26,14 +26,6 @@ export function generateMetadataTemplate(props: Props): Metadata {
     authors: { name: author.name, url: author.url },
     title: outputTitle,
     description: outputDescription,
-    icons: {
-      icon: "/favicon.ico",
-      other: [{
-        url: "/feed",
-        rel: "alternate",
-        type: "application/atom+xml"
-      }]
-    },
     keywords,
     openGraph: {
       title: title ? title : siteName,
