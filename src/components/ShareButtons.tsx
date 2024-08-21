@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-function SNSButton({ url, hoverColor, icon }: { url: string, hoverColor: string, icon: string }) {
+function SNSButton({ url, hoverColor, icon, title }: { url: string, hoverColor: string, icon: string, title?: string }) {
   return <div>
-    <Link target="_blank" rel="noopener noreferrer"
+    <Link target="_blank" rel="noopener noreferrer" title={title ?? "シェア"}
       href={url}>
       <div className={`${icon} bg-gray-500 size-8 hover:bg-[${hoverColor}]`} />
     </Link>
@@ -16,10 +16,12 @@ export default function ShareButtons({ path, text }: { path: string, text: strin
     <SNSButton
       url={`http://twitter.com/intent/tweet?url=${sharingURL}&text=${text}`}
       hoverColor="black"
-      icon="i-tabler-brand-x" />
+      icon="i-tabler-brand-x"
+      title="Xへシェアする" />
     <SNSButton
       url={`https://www.facebook.com/sharer.php?u=${sharingURL}`}
       hoverColor="#1877f2"
-      icon="i-tabler-brand-facebook" />
+      icon="i-tabler-brand-facebook"
+      title="Facebookへシェアする" />
   </div>
 }

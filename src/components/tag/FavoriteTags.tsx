@@ -11,7 +11,9 @@ export default function FavoriteTags() {
     setFavoriteTags(getFavList());
   }, [])
 
-  return <div className='flex flex-wrap gap-3 my-3'>
+  return <div
+    title={`${favoriteTags.length} 件のお気に入り`}
+    className='flex flex-wrap gap-3 my-3'>
     {favoriteTags.length > 0 ?
       favoriteTags.map((tag, i) => <TagBanner tag={tag} key={i} />) :
       <ExplainingBanner>

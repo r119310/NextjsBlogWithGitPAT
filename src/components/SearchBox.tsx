@@ -30,6 +30,7 @@ export default function SearchBox({ posts }: { posts: Post[] }) {
     />
     <button
       onClick={triggerSearch}
+      title="検索する [Enter]"
       className="transition-colors w-10 h-8 px-2 bg-gray-700 rounded-e-3xl border-gray-700 hover:bg-gray-800 hover:border-gray-800 border-y border-r flex justify-center items-center">
       <span className="transition-colors i-tabler-zoom bg-white size-4 dark:bg-slate-200" />
     </button>
