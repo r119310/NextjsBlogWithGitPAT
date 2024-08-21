@@ -1,18 +1,20 @@
-import React from "react";
+import React, { Suspense } from "react";
 import '@/styles/post/style.css'
 import TagBanner from "@/components/tag/TagBanner";
 import DateCard from "@/components/post/DateCard";
 import { getSeries } from "@/lib/getPosts";
 import { PostData } from "@/static/postType";
-import { Issue } from "@/static/issueType";
 import { CommentForm, CommentFormNoPosting } from "../post/CommentForm";
 import { PostMarkdown } from "../post/MarkdownElements";
 import { ExplainingBanner } from "../UserBanner";
 import Link from "next/link";
 import SeriesCard from "../post/SeriesCard";
+import { getCommentList } from "@/lib/commentIssueManager";
+import LoadingCircle from "../LoadingCircle";
 
-export default async function Article({ data, content, issue, slug }: { data: PostData, content: string, issue?: Issue, slug?: string }) {
+export default async function Article({ data, content, slug }: { data: PostData, content: string, slug?: string }) {
   const series = data.series ? await getSeries(data.series) : undefined;
+  const issue = slug ? await getCommentList(slug) : undefined;
 
   return <article className="transition-colors bg-white p-8 rounded-3xl w-full md:w-[34rem] lg:w-[44rem] mx-auto xl:m-0 dark:bg-slate-800">
     <div className="flex items-center mb-2">
@@ -39,14 +41,16 @@ export default async function Article({ data, content, issue, slug }: { data: Po
         />
       </div> : <></>}
     <PostMarkdown content={content} />
-    {issue && slug ?
-      issue.state === "closed" ?
-        <ExplainingBanner>
-          コメントは無効です
-        </ExplainingBanner> :
-        issue.locked ?
-          <CommentFormNoPosting comments={issue.comments} /> :
-          <CommentForm comments={issue.comments} slug={slug} /> :
-      <></>}
+    <Suspense fallback={<LoadingCircle />}>
+      {issue && slug ?
+        issue.state === "closed" ?
+          <ExplainingBanner>
+            コメントは無効です
+          </ExplainingBanner> :
+          issue.locked ?
+            <CommentFormNoPosting comments={issue.comments} /> :
+            <CommentForm comments={issue.comments} slug={slug} /> :
+        <></>}
+    </Suspense>
   </article>
 }

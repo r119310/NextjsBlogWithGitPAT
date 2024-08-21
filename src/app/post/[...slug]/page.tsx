@@ -7,7 +7,6 @@ import { generateMetadataTemplate } from '@/lib/SEO';
 import Article from "@/components/layout/ArticlePage";
 import { Main, SideMDShown } from "@/components/layout/PageLayout";
 import ShareButtons from "@/components/ShareButtons";
-import { getCommentList } from "@/lib/commentIssueManager";
 import { BlogPosting, WithContext } from "schema-dts";
 import { author } from "@/static/constant";
 import JsonLd from "@/components/JsonLd";
@@ -33,12 +32,7 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
 
 export default async function Post({ params }: { params: { slug: string[] } }) {
   const slug = decodeURIComponent(params.slug.join('/'));
-  const [postContent, issue] = await Promise.all([
-    getFileContent(slug),
-    getCommentList(slug),
-  ]);
-
-  const { data, content } = postContent;
+  const { data, content } = await getFileContent(slug);
 
   const jsonLd: WithContext<BlogPosting> = {
     '@context': "https://schema.org",
@@ -62,6 +56,6 @@ export default async function Post({ params }: { params: { slug: string[] } }) {
         <ShareButtons path={`/post/${slug}`} text={data.title} />
       </div>
     </SideMDShown>
-    <Article data={data} content={content} issue={issue} slug={slug} />
+    <Article data={data} content={content} slug={slug} />
   </Main>
 }
