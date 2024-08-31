@@ -26,6 +26,8 @@ function getMimeType(path: string) {
       return 'image/webp';
     case 'bmp':
       return 'image/bmp';
+    case 'svg':
+      return 'image/svg+xml';
     default:
       return 'application/octet-stream';
   }
