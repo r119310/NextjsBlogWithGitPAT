@@ -1,7 +1,9 @@
+import { mplus2 } from "@/lib/font";
+
 export default function DateCard({ date }: { date?: string }) {
   const formattedDate = date ? new Date(date.replace(/-/g, "/")) : undefined;
 
-  return <time dateTime={formattedDate?.toISOString()}>
+  return <time className={mplus2.className} dateTime={formattedDate?.toISOString()}>
     <div title={formattedDate?.toISOString()} className="flex items-center">
       <span className='-rotate-90 text-sm w-6 ml-2 translate-y-4 leading-4'>
         {formattedDate ? formattedDate.getFullYear() : ""}
