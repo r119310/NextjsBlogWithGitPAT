@@ -1,5 +1,5 @@
-export const siteName = "ブログもち";
-export const siteDescription = "「ブログもち」ではプログラミング等で気になった技術・情報等について書き残したりしています"
+export const siteName = "Mac020k ブログ";
+export const siteDescription = "「Mac020k ブログ」は"
 export const author = {
   name: "isirmt",
   url: "https://me.itomiri.com"
