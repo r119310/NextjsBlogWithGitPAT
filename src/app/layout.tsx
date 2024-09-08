@@ -36,7 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SpeedInsights />
         <Analytics />
       </body>
-      <GoogleTagManager gtmId={process.env.GTM_ID!} />
+      {process.env.GTM_ID ? <GoogleTagManager gtmId={process.env.GTM_ID} /> : <></>}
     </html>
   );
 }
