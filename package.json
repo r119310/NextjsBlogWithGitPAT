@@ -17,7 +17,7 @@
     "lodash": "^4.17.21",
     "lru-cache": "^11.0.0",
     "markdown-to-txt": "^2.0.1",
-    "next": "14.2.5",
+    "next": "14.2.8",
     "nextjs-toploader": "^1.6.12",
     "react": "^18",
     "react-dom": "^18",
