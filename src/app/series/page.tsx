@@ -1,5 +1,5 @@
 import TipsCard from '@/components/TipsCard';
-import { getPostsProps, getSeries, getSeriesProps } from '@/lib/getPosts';
+import { getSeriesProps } from '@/lib/getPosts';
 import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';

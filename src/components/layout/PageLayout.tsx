@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export function Main({ children }: { children?: React.ReactNode }) {
   return <main className={`flex-grow flex-row-reverse md:flex md:flex-grow-0`}>{children}</main>;
 }

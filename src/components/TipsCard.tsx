@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export default function TipsCard({ children }: { children: React.ReactNode }) {
   return (
     <div className='p-5 transition-colors dark:text-black'>

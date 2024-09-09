@@ -8,6 +8,7 @@ import NextTopLoader from 'nextjs-toploader';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
 import { notoSansJp } from '@/lib/font';
+import * as React from 'react';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

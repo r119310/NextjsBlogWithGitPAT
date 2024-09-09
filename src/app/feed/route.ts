@@ -1,7 +1,6 @@
 import { getPostsProps } from '@/lib/getPosts';
 import { siteName } from '@/static/constant';
 import { lastModified } from '@/static/constant';
-import { NextRequest } from 'next/server';
 import Rss from 'rss';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +8,7 @@ export const revalidate = 1200;
 
 const baseURL = process.env.NEXT_PUBLIC_URL!;
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const feed = new Rss({
     title: `${siteName}の新着投稿`,
     description: `「${siteName}」の投稿フィード`,

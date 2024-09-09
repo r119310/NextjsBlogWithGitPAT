@@ -1,9 +1,9 @@
 'use client';
-import type { Post } from '@/static/postType';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import * as React from 'react';
 
-export default function SearchBox({ posts }: { posts: Post[] }) {
+export default function SearchBox() {
   const [searchWord, setSearchWord] = useState<string>('');
   const router = useRouter();
 

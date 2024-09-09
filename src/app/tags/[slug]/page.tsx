@@ -7,7 +7,6 @@ import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import FeedButton from '@/components/post/FeedButton';
-import { IconDescriptor, Icons } from 'next/dist/lib/metadata/types/metadata-types';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);

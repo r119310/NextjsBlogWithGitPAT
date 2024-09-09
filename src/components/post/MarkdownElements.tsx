@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { getImage } from '@/lib/getPosts';
-import { ClassAttributes, HTMLAttributes, Suspense } from 'react';
+import { ClassAttributes, HTMLAttributes } from 'react';
 import ReactMarkdown, { Components, ExtraProps } from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -68,7 +68,6 @@ const H3 = ({
 };
 
 const Img = ({
-  node,
   ...props
 }: ClassAttributes<HTMLImageElement> &
   HTMLAttributes<HTMLImageElement> &
