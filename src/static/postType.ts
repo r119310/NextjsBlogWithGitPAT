@@ -16,4 +16,4 @@ export type SeriesData = {
   name: string;
   description?: string;
   [key: string]: any;
-}
+};

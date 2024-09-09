@@ -1,4 +1,4 @@
-import type { Post } from "@/static/postType";
+import type { Post } from '@/static/postType';
 
 const numberPattern = /^\d+\.md$/;
 
@@ -60,8 +60,5 @@ export function getTagsWithLatestDate(posts: Post[]): TagWithLatestDate[] {
 }
 
 export function getTags(posts: Post[]) {
-  return Array.from(new Set(posts
-    .filter((post) => post.data.tags)
-    .flatMap((post) => post.data.tags as string[])
-  ));
+  return Array.from(new Set(posts.filter((post) => post.data.tags).flatMap((post) => post.data.tags as string[])));
 }

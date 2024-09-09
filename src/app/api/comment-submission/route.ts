@@ -9,23 +9,23 @@ const rateLimit = new LRUCache<string, number>({
 
 const getHeaders = () => {
   return {
-    "Authorization": `token ${process.env.GIT_TOKEN!}`,
-    "Content-Type": "application/json",
+    Authorization: `token ${process.env.GIT_TOKEN!}`,
+    'Content-Type': 'application/json',
   };
 };
 
 const authorize = async (token: string) => {
   const secretKey = `secret=${process.env.RECAPTCHA_SECRET_KEY!}&response=${token}`;
-  const data = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
+  const data = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: secretKey,
-  }).then(res => res.json());
+  }).then((res) => res.json());
 
   return data;
-}
+};
 
 export async function POST(req: NextRequest) {
   const { slug, comment, token } = await req.json();
@@ -44,11 +44,14 @@ export async function POST(req: NextRequest) {
   const recaptchaJson = await authorize(token);
 
   if (!recaptchaJson.success) {
-    return NextResponse.json({ error: "ReCAPTCHA verification failed" }, { status: 401 })
+    return NextResponse.json({ error: 'ReCAPTCHA verification failed' }, { status: 401 });
   }
 
   try {
-    const issues = await fetchAllData(`https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`, 5);
+    const issues = await fetchAllData(
+      `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`,
+      5,
+    );
     const issue = issues.find((issue: any) => issue.title === slug);
 
     if (!issue) {
@@ -73,7 +76,6 @@ export async function POST(req: NextRequest) {
       const errorText = await response.text();
       return NextResponse.json({ error: `Failed to add comment: ${errorText}` }, { status: response.status });
     }
-
   } catch (e) {
     console.error('Error adding comment:', e);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

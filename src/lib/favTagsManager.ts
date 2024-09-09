@@ -2,7 +2,7 @@ const keyName = process.env.NEXT_PUBLIC_STORAGE_FAVORITE_TAGS!;
 
 export function getFavList() {
   const favStorage = localStorage.getItem(keyName);
-  return favStorage ? JSON.parse(favStorage) as string[] : [];
+  return favStorage ? (JSON.parse(favStorage) as string[]) : [];
 }
 
 function saveFavList(favorites: string[]) {

@@ -1,10 +1,10 @@
 export type Comment = {
-  date: string,
-  content: string
-}
+  date: string;
+  content: string;
+};
 
 export type Issue = {
-  comments: Comment[],
-  locked: boolean,
-  state: "open" | "closed"
-}
+  comments: Comment[];
+  locked: boolean;
+  state: 'open' | 'closed';
+};

@@ -1,4 +1,4 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -6,9 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: [
-      `${process.env.NEXT_PUBLIC_URL}/sitemap.xml`,
-      `${process.env.NEXT_PUBLIC_URL}/feed`
-    ],
-  }
+    sitemap: [`${process.env.NEXT_PUBLIC_URL}/sitemap.xml`, `${process.env.NEXT_PUBLIC_URL}/feed`],
+  };
 }
