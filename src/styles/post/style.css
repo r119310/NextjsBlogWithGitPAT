@@ -43,7 +43,7 @@
   background-color: rgb(51, 65, 85);
 }
 
-.markdown a {
+.markdown a.post_hyper_url {
   color: #564dd1;
   text-decoration: underline;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

@@ -10,6 +10,9 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import CopyToClipboard from './CopyToClipboard';
+import { HeadMeta } from '@/static/metaType';
+import * as React from 'react';
+import { makeExcerpt } from '@/lib/textFormatter';
 
 function getMimeType(path: string) {
   const ext = path.split('.').pop()?.toLowerCase();
@@ -36,6 +39,52 @@ async function ExImg({ path, alt }: { path: string; alt?: string }) {
   const image64 = await getImage(path);
   const mimeType = getMimeType(path);
   return <img alt={alt} src={`data:${mimeType};base64,${image64}`} />;
+}
+
+async function ExA({ path, isInner }: { path: string; isInner: boolean }) {
+  const CardComponent = ({ meta }: { meta: HeadMeta }) => {
+    const titleBase = meta['og:title'] ? meta['og:title'] : meta.title ? meta.title : meta.url;
+    const title = makeExcerpt(titleBase, 20);
+    const descriptionBase = meta['og:description'] ? meta['og:description'] : meta.description ? meta.description : '';
+    const description = makeExcerpt(descriptionBase, 15);
+    return (
+      <span className='my-2 flex h-24 w-full justify-between overflow-hidden rounded-md border border-slate-100 shadow-sm transition-shadow hover:shadow-md'>
+        <span className='flex flex-col justify-between overflow-hidden px-3 py-4'>
+          <span className='flex flex-col gap-0.5'>
+            <span className='block font-bold'>{title}</span>
+            <span className='block text-xs'>{description}</span>
+          </span>
+          <span className='block'>
+            <span className='block whitespace-nowrap text-xs'>
+              <span className='i-tabler-world relative top-0.5 mr-0.5 bg-gray-700' />
+              {makeExcerpt(meta.url, 36)}
+            </span>
+          </span>
+        </span>
+        {meta['og:image'] ? (
+          <span className='flex h-full flex-col items-center justify-center overflow-hidden'>
+            <img className='m-0 h-full w-auto' alt='thumb' src={meta['og:image']} />
+          </span>
+        ) : (
+          <></>
+        )}
+      </span>
+    );
+  };
+
+  const metaResponse = await fetch(`${process.env.NEXT_PUBLIC_URL!}/api/get-head?url=${encodeURIComponent(path)}`, {
+    next: { revalidate: 3600 * 24 },
+  });
+  const meta = (await metaResponse.json()).meta;
+  return isInner ? (
+    <a href={path}>
+      <CardComponent meta={meta} />
+    </a>
+  ) : (
+    <a href={path} target='_blank' rel='noopener noreferrer'>
+      <CardComponent meta={meta} />
+    </a>
+  );
 }
 
 const H2 = ({
@@ -111,16 +160,24 @@ const Pre = ({ children, ...props }: ClassAttributes<HTMLPreElement> & HTMLAttri
 
 const A = ({
   href,
+  children,
   ...props
-}: ClassAttributes<HTMLAnchorElement> & HTMLAttributes<HTMLAnchorElement> & { href?: string }) => {
+}: ClassAttributes<HTMLAnchorElement> &
+  HTMLAttributes<HTMLAnchorElement> & { href?: string; children?: React.ReactNode }) => {
   const isInternalLink = href?.startsWith('/');
+  const displayText = typeof children === 'string' ? children : '';
+
+  if (href && displayText === href) {
+    return <ExA path={href} isInner={isInternalLink ?? false} />;
+  }
+
   return isInternalLink ? (
-    <a href={href} {...props}>
-      {props.children}
+    <a className='post_hyper_url' href={href} {...props}>
+      {children}
     </a>
   ) : (
-    <a href={href} target='_blank' rel='noopener noreferrer' {...props}>
-      {props.children}
+    <a className='post_hyper_url' href={href} target='_blank' rel='noopener noreferrer' {...props}>
+      {children}
     </a>
   );
 };
