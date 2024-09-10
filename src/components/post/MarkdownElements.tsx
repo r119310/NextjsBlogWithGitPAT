@@ -48,11 +48,11 @@ async function ExA({ path, isInner }: { path: string; isInner: boolean }) {
     const descriptionBase = meta['og:description'] ? meta['og:description'] : meta.description ? meta.description : '';
     const description = makeExcerpt(descriptionBase, 15);
     return (
-      <span className='my-4 flex h-24 w-full justify-between overflow-hidden rounded-md border border-slate-100 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700'>
+      <span className='my-4 flex h-24 w-full justify-between gap-1 overflow-hidden rounded-md border border-slate-100 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700'>
         <span className='flex flex-col justify-between overflow-hidden px-3 py-4'>
           <span className='flex flex-col gap-0.5'>
-            <span className='block font-bold'>{title}</span>
-            <span className='block text-xs'>{description}</span>
+            <span className='block whitespace-nowrap font-bold'>{title}</span>
+            <span className='block whitespace-nowrap text-xs'>{description}</span>
           </span>
           <span className='block'>
             <span className='block whitespace-nowrap text-xs'>
