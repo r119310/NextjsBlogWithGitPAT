@@ -28,13 +28,14 @@
 }
 
 .markdown p {
-  margin: 0.25rem 0;
+  margin: 0.5rem 0;
 }
 
 .markdown code {
   background-color: #f7f7f7;
   padding: 0.1rem 0.25rem;
   border-radius: 0.25rem;
+  margin-inline: 0.2rem;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -140,6 +141,7 @@
   color: #555;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+  margin-block: 1rem;
 }
 
 .dark .markdown blockquote {
