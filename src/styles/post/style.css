@@ -24,6 +24,7 @@
 
 .markdown img {
   margin: 1rem auto;
+  max-width: 100%;
 }
 
 .markdown p {
@@ -114,8 +115,12 @@
 }
 
 .markdown pre {
-  border-radius: 0 0.5rem 0.5rem 0.5rem;
+  border-radius: 0.5rem;
   padding: 1rem !important;
+}
+
+.post_fname + pre {
+  border-radius: 0 0.5rem 0.5rem 0.5rem;
 }
 
 .markdown pre > code,
