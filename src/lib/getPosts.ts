@@ -70,7 +70,7 @@ async function createPostsFromDirectory(item: any): Promise<Post[]> {
 
 export const getPostsProps = cache(async (dir?: string): Promise<Post[]> => {
   const targetDir = dir ? `${process.env.GIT_POSTS_DIR}/${dir}` : process.env.GIT_POSTS_DIR!;
-  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 1200);
+  const data = await fetchAllData(`${gitContentPath}/${targetDir}`, 300);
 
   const postsPromises = data.map(async (item) => {
     if (item.type === 'file' && item.name.endsWith('.md')) {
