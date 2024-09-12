@@ -6,12 +6,12 @@ import { makeExcerpt } from '@/lib/textFormatter';
 
 export default function PostCard({ post }: { post: Post }) {
   return (
-    <div className='rounded-md border border-transparent bg-white transition-all hover:border-gray-200 hover:shadow-md dark:bg-slate-800'>
+    <div className='w-full rounded-md border border-transparent bg-white transition-all hover:border-gray-200 hover:shadow-md dark:bg-slate-800'>
       <div>
         <Link href={`/post/${post.slug}`}>
           <div className='flex min-h-28 items-center'>
             <DateCard date={post.data.date} />
-            <div className='ml-2 mt-2'>
+            <div className='ml-2 mt-2 flex flex-grow flex-col'>
               <p className='mb-1 mr-4 border-b text-lg leading-6 transition-colors dark:border-slate-700'>
                 {post.data.series ? (
                   <span className='mr-1.5 inline-block bg-slate-200 px-1 py-0.5 text-sm transition-colors dark:bg-slate-700'>

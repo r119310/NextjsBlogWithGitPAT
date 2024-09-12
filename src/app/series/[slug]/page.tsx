@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import { cache } from 'react';
+import React from 'react';
 
 const getContents = cache(async (slug: string) => {
   return getSeries(slug);
@@ -50,7 +51,14 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
         )}
         <div className='flex flex-col gap-y-3'>
           {posts.map((post, i) => (
-            <PostCard post={post} key={i} />
+            <div className='flex items-stretch gap-1' key={i + 1}>
+              <div className='flex w-10 items-center justify-center overflow-hidden break-all rounded-sm bg-gray-100 px-0.5 text-center text-lg font-bold text-gray-700 dark:bg-slate-700 dark:text-slate-400'>
+                {i + 1}
+              </div>
+              <div className='flex flex-grow'>
+                <PostCard post={post} />
+              </div>
+            </div>
           ))}
         </div>
       </Section>
