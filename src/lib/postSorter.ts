@@ -1,6 +1,6 @@
 import type { Post } from '@/static/postType';
 
-const numberPattern = /^\d+\.md$/;
+const numberPattern = /^(.*\/)(\d+)$/;
 
 export type TagWithLatestDate = {
   tag: string;
@@ -8,22 +8,18 @@ export type TagWithLatestDate = {
 };
 
 export function compareSeriesPosts(a: Post, b: Post): number {
-  const isANumbered = numberPattern.test(a.slug);
-  const isBNumbered = numberPattern.test(b.slug);
+  const matchA = a.slug.match(numberPattern);
+  const matchB = b.slug.match(numberPattern);
 
-  if (isANumbered && isBNumbered) {
-    // 両方とも「数字.md」の場合、数字の昇順で比較
-    const numA = parseInt(a.slug, 10);
-    const numB = parseInt(b.slug, 10);
+  if (matchA && matchB) {
+    const numA = parseInt(matchA[2], 10);
+    const numB = parseInt(matchB[2], 10);
     return numA - numB;
-  } else if (isANumbered) {
-    // aが「数字.md」でbがそうでない場合、aを前に
+  } else if (matchA) {
     return -1;
-  } else if (isBNumbered) {
-    // bが「数字.md」でaがそうでない場合、bを前に
+  } else if (matchB) {
     return 1;
   } else {
-    // 両方とも「数字.md」でない場合、dateで比較
     const dateA = a.data.date ? new Date(a.data.date).getTime() : Infinity;
     const dateB = b.data.date ? new Date(b.data.date).getTime() : Infinity;
     return dateA - dateB;
@@ -31,10 +27,18 @@ export function compareSeriesPosts(a: Post, b: Post): number {
 }
 
 export function comparePosts(a: Post, b: Post): number {
+  const matchA = a.slug.match(numberPattern);
+  const matchB = b.slug.match(numberPattern);
+
   const dateA = a.data.date ? new Date(a.data.date).getTime() : -Infinity;
   const dateB = b.data.date ? new Date(b.data.date).getTime() : -Infinity;
 
-  return dateB - dateA;
+  if (dateB - dateA != 0) return dateB - dateA;
+  else if (matchA && matchB) {
+    const numA = parseInt(matchA[2], 10);
+    const numB = parseInt(matchB[2], 10);
+    return numB - numA;
+  } else return 0;
 }
 
 export function getTagsWithLatestDate(posts: Post[]): TagWithLatestDate[] {
