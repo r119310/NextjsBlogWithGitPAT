@@ -23,7 +23,7 @@ export default function Footer() {
               </p>
             </div>
             <div>
-              <Link href='/profile'>
+              <Link href='/profile' title='プロフィールを表示'>
                 <div className='group flex size-12 items-center justify-center rounded-lg border border-blue-400 bg-blue-100 transition-colors dark:border-violet-400 dark:bg-violet-700 dark:hover:bg-violet-600'>
                   <span className='i-tabler-user-circle size-7 bg-blue-400 transition-colors group-hover:bg-yellow-500 dark:bg-violet-400 dark:group-hover:bg-violet-400' />
                 </div>
