@@ -12,7 +12,7 @@ import * as React from 'react';
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='ja'>
+    <html lang='ja' suppressHydrationWarning={true}>
       <head prefix='og: http://ogp.me/ns#'>
         <script dangerouslySetInnerHTML={{ __html: `(${preloadTheme.toString()})()` }} />
         <link rel='alternate' href='/feed' type='application/atom+xml' />
