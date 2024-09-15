@@ -5,27 +5,46 @@ import { Post } from '@/static/postType';
 import { makeExcerpt } from '@/lib/textFormatter';
 
 export default function PostCard({ post }: { post: Post }) {
-  return <div className='transition-all hover:shadow-md border border-transparent hover:border-gray-200 rounded-md bg-white dark:bg-slate-800'>
-    <div><Link href={`/post/${post.slug}`}>
-      <div className="min-h-28 flex items-center">
-        <DateCard date={post.data.date} />
-        <div className='mt-2 ml-2'>
-          <p className='transition-colors text-lg leading-6 border-b mb-1 mr-4 dark:border-slate-700'>
-            {post.data.series ? <span className='transition-colors text-sm mr-1.5 py-0.5 px-1 bg-slate-200 dark:bg-slate-700 inline-block'>シリーズ</span> : <></>}
-            <span className='transition-colors dark:text-white'>{post.data.title}</span>
-          </p>
-          <p className='text-xs leading-3 px-4 mb-2'>{makeExcerpt(post.excerpt, 64)}</p>
-        </div>
-      </div></Link>
-    </div>
-    {post.data.tags || post.data.series ?
-      <div className='ml-2 mb-3 flex flex-wrap gap-1 pb-3'>
-        {post.data.series ? <Link href={`/series/${post.data.series}`}>
-          <div className='transition-colors text-sm px-1 rounded-md border border-blue-400 hover:bg-blue-400 group dark:border-violet-500 dark:hover:bg-violet-500'>
-            <span className='transition-colors text-blue-500 group-hover:text-white leading-4 dark:text-violet-500 dark:group-hover:text-slate-200'>シリーズを表示</span>
+  return (
+    <div className='w-full rounded-md border border-transparent bg-white transition-all hover:border-gray-200 hover:shadow-md dark:bg-slate-800'>
+      <div>
+        <Link href={`/post/${post.slug}`}>
+          <div className='flex min-h-28 items-center'>
+            <DateCard date={post.data.date} />
+            <div className='ml-2 mt-2 flex flex-grow flex-col'>
+              <p className='mb-1 mr-4 border-b text-lg leading-6 transition-colors dark:border-slate-700'>
+                {post.data.series ? (
+                  <span className='mr-1.5 inline-block bg-slate-200 px-1 py-0.5 text-sm transition-colors dark:bg-slate-700'>
+                    シリーズ
+                  </span>
+                ) : (
+                  <></>
+                )}
+                <span className='transition-colors dark:text-white'>{post.data.title}</span>
+              </p>
+              <p className='mb-2 px-4 text-xs leading-3'>{makeExcerpt(post.excerpt, 64)}</p>
+            </div>
           </div>
-        </Link> : <></>}
-        {post.data.tags?.map((tag, i) => <TagBanner tag={tag} isSmall={true} key={i} />)}
-      </div> : <></>}
-  </div>
+        </Link>
+      </div>
+      {post.data.tags || post.data.series ? (
+        <div className='mb-3 ml-2 flex flex-wrap gap-1 pb-3'>
+          {post.data.series ? (
+            <Link href={`/series/${post.data.series}`}>
+              <div className='group rounded-md border border-blue-400 px-1 text-sm transition-colors hover:bg-blue-400 dark:border-violet-500 dark:hover:bg-violet-500'>
+                <span className='leading-4 text-blue-500 transition-colors group-hover:text-white dark:text-violet-500 dark:group-hover:text-slate-200'>
+                  シリーズを表示
+                </span>
+              </div>
+            </Link>
+          ) : (
+            <></>
+          )}
+          {post.data.tags?.map((tag, i) => <TagBanner tag={tag} isSmall={true} key={i} />)}
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
+  );
 }

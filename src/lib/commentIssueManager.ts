@@ -1,12 +1,11 @@
-import { Comment, Issue } from "@/static/issueType";
-import { cache } from "react";
-import { fetchAllData, getHeaders, getNext } from "./fetchingFunc";
+import { Comment, Issue } from '@/static/issueType';
+import { cache } from 'react';
+import { fetchAllData, getHeaders, getNext } from './fetchingFunc';
 
 const issueCreationMap: Record<string, Promise<void> | undefined> = {};
 const gitIssuePath = `https://api.github.com/repos/${process.env.GIT_USERNAME!}/${process.env.GIT_REPO!}/issues`;
 
-const getFilteredIssuePath = (slug: string) =>
-  `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title&state=all`;
+const getFilteredIssuePath = (slug: string) => `${gitIssuePath}?q=${encodeURIComponent(slug)}+in:title&state=all`;
 
 async function getIssue(slug: string, revalidate: number = 120) {
   const data = await fetchAllData(getFilteredIssuePath(slug), revalidate);
@@ -18,7 +17,7 @@ async function getIssue(slug: string, revalidate: number = 120) {
         slug: issue.title as string,
         commentsURL: issue.comments_url as string,
         locked: issue.locked as boolean,
-        state: issue.state as "open" | "closed"
+        state: issue.state as 'open' | 'closed',
       };
     }
   }
@@ -33,11 +32,11 @@ const createIssue = cache(async (slug: string) => {
       const data = {
         title: slug,
         body: `${process.env.NEXT_PUBLIC_URL!}/post/${slug}`,
-        labels: ["user-comment"],
+        labels: ['user-comment'],
       };
 
       await fetch(gitIssuePath, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(data),
         ...getHeaders(),
       })
@@ -66,7 +65,8 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
 
   if (targetIssue) {
     const data = await fetch(targetIssue.commentsURL, {
-      ...getHeaders(), ...getNext(20),
+      ...getHeaders(),
+      ...getNext(20),
     })
       .then((res) => res.json())
       .catch((e) => console.error(e));
@@ -75,21 +75,21 @@ export const getCommentList = cache(async (slug: string): Promise<Issue> => {
     for (const item of data) {
       const date = new Date(item.created_at as string);
       comments.push({
-        date: date.toLocaleString("ja-JP"),
+        date: date.toLocaleString('ja-JP'),
         content: item.body as string,
       });
     }
     return {
       comments,
       locked: targetIssue.locked,
-      state: targetIssue.state
+      state: targetIssue.state,
     };
   } else {
     createIssue(slug);
     return {
       comments: [],
       locked: false,
-      state: "open"
-    }
+      state: 'open',
+    };
   }
 });
