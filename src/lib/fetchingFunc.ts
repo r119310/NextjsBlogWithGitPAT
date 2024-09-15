@@ -5,11 +5,11 @@ export type FetchOptions = RequestInit & {
 export function getHeaders() {
   return {
     headers: {
-      "Authorization": `token ${process.env.GIT_TOKEN!}`,
-      "Content-Type": "application/json",
-    }
+      Authorization: `token ${process.env.GIT_TOKEN!}`,
+      'Content-Type': 'application/json',
+    },
   };
-};
+}
 
 export function getNext(revalidate: number): FetchOptions {
   if (revalidate === 0) {
@@ -25,7 +25,8 @@ export async function fetchAllData(url: string, revalidate: number): Promise<any
 
   while (nextUrl) {
     const response: Response = await fetch(nextUrl, {
-      ...getHeaders(), ...getNext(revalidate),
+      ...getHeaders(),
+      ...getNext(revalidate),
     });
 
     const data = await response.json();
