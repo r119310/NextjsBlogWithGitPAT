@@ -49,7 +49,7 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
         ) : (
           <></>
         )}
-        <PostPaging posts={posts} useIndex={true} />
+        <PostPaging posts={posts} useIndex useRouting postsPerPage={20} />
       </Section>
     </Main>
   );

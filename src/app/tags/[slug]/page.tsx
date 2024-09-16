@@ -45,7 +45,7 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
           <FeedButton url={`/tags/${params.slug}/feed`} />
         </Title>
         <SubscribeTagButton tag={slug} />
-        <PostPaging posts={filteredPosts} />
+        <PostPaging posts={filteredPosts} useRouting />
       </Section>
     </Main>
   );

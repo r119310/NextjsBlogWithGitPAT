@@ -2,23 +2,43 @@
 import { Post } from '@/static/postType';
 import PostCard from './PostCard';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import React, { useEffect } from 'react';
-import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 const MorePageSign = () => <div className='pointer-events-none block size-4 rounded-full bg-blue-200'></div>;
 
-export default function PostPaging({ posts, useIndex }: { posts: Post[]; useIndex?: boolean }) {
+const PagingButton = ({ icon, title, func }: { icon: string; title?: string; func: () => void }) => (
+  <button
+    title={title}
+    className='group flex size-12 flex-col items-center justify-center rounded-full border border-blue-500 transition-colors hover:bg-blue-500'
+    onClick={func}
+  >
+    <span className={`${icon} size-8 bg-blue-500 transition-colors group-hover:bg-slate-50`} />
+  </button>
+);
+
+export default function PostPaging({
+  posts,
+  useIndex,
+  useRouting,
+  postsPerPage = 10,
+  linkingWidth = 2,
+}: {
+  posts: Post[];
+  useIndex?: boolean;
+  useRouting?: boolean;
+  postsPerPage?: number;
+  linkingWidth?: number;
+}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const p = useRouting ? searchParams.get('p') : null;
 
-  const p = searchParams.get('p');
-  const page = p ? Number(p) : 1;
-  const postsPerPage = 10;
+  const [page, setPage] = useState<number>(useRouting ? (p ? Number(p) : 1) : 1);
+
   const startIndex = postsPerPage * (page - 1);
-  const maxPage = Math.trunc(posts.length / postsPerPage);
+  const maxPage = Math.ceil(posts.length / postsPerPage);
 
-  const linkingWidth = 2;
   const linkingStartPage = Math.max(page - linkingWidth, 1);
   const linkingEndPage = Math.min(page + linkingWidth, maxPage);
   const linkingPages: number[] = [];
@@ -28,9 +48,10 @@ export default function PostPaging({ posts, useIndex }: { posts: Post[]; useInde
 
   useEffect(() => {
     if (page <= 0 || page > maxPage) {
-      router.push('${pathname}');
+      if (useRouting) router.push(pathname);
+      setPage(1);
     }
-  }, [maxPage, page, router]);
+  }, [maxPage, page, router, pathname, useRouting]);
 
   const displayingPosts = posts.slice(startIndex, startIndex + postsPerPage);
 
@@ -54,34 +75,45 @@ export default function PostPaging({ posts, useIndex }: { posts: Post[]; useInde
           </React.Fragment>
         ))}
       </div>
-      <div className='mt-3 flex items-center justify-center gap-2'>
-        <button
+      <div
+        className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-3 flex items-center justify-center gap-2`}
+      >
+        <PagingButton
           title='前のページ'
-          className='group flex size-12 flex-col items-center justify-center rounded-full border border-blue-500 transition-colors hover:bg-blue-500'
-          onClick={() => router.push(`${pathname}?p=${page - 1 <= 0 ? maxPage : page - 1}`)}
-        >
-          <span className='i-tabler-arrow-badge-left-filled size-8 bg-blue-500 transition-colors group-hover:bg-slate-50' />
-        </button>
+          icon='i-tabler-arrow-badge-left-filled'
+          func={() => {
+            const nextPage = page - 1 <= 0 ? maxPage : page - 1;
+            if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+            setPage(nextPage);
+          }}
+        />
         <div className='flex gap-1'>
           {linkingStartPage !== 1 ? <MorePageSign /> : <></>}
           {linkingPages.map((item, i) => (
-            <Link
+            <button
               key={i}
+              title={`${item}ページ目へ`}
               className={`block size-4 rounded-full border border-blue-500 ${page === item ? 'pointer-events-none bg-blue-500' : 'bg-transparent'} transition-colors hover:bg-blue-500`}
-              href={`${pathname}?p=${item}`}
-            ></Link>
+              onClick={() => {
+                const nextPage = item;
+                if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+                setPage(nextPage);
+              }}
+            ></button>
           ))}
           {linkingEndPage !== maxPage ? <MorePageSign /> : <></>}
         </div>
-        <button
+        <PagingButton
           title='次のページ'
-          className='group flex size-12 flex-col items-center justify-center rounded-full border border-blue-500 transition-colors hover:bg-blue-500'
-          onClick={() => router.push(`${pathname}?p=${page + 1 > maxPage ? 1 : page + 1}`)}
-        >
-          <span className='i-tabler-arrow-badge-right-filled size-8 bg-blue-500 transition-colors group-hover:bg-slate-50' />
-        </button>
+          icon='i-tabler-arrow-badge-right-filled'
+          func={() => {
+            const nextPage = page + 1 > maxPage ? 1 : page + 1;
+            if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+            setPage(nextPage);
+          }}
+        />
       </div>
-      <div className='mt-2 text-center text-gray-700'>
+      <div className='mt-2 select-none text-center text-gray-700'>
         {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
       </div>
     </div>

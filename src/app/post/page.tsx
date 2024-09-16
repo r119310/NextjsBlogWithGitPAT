@@ -28,7 +28,7 @@ export default async function PostList() {
           投稿一覧
           <FeedButton url='/feed' />
         </Title>
-        <PostPaging posts={posts} />
+        <PostPaging posts={posts} useRouting />
       </Section>
     </Main>
   );
