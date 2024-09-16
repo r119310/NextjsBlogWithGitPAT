@@ -1,11 +1,11 @@
 'use client';
 
 import { getFavList } from '@/lib/favTagsManager';
-import PostCard from './PostCard';
 import { useEffect, useState } from 'react';
 import { Post } from '@/static/postType';
 import TipsCard from '../TipsCard';
 import Link from 'next/link';
+import PostPaging from './PostPaging';
 
 export default function FavoritePosts({ posts }: { posts: Post[] }) {
   const [favoriteTags, setFavoriteTags] = useState<string[]>([]);
@@ -18,9 +18,9 @@ export default function FavoritePosts({ posts }: { posts: Post[] }) {
   }, []);
 
   return (
-    <div className='my-3 flex flex-col gap-y-3'>
+    <div className='my-3'>
       {filteredPosts.length > 0 ? (
-        filteredPosts.map((post, i) => <PostCard post={post} key={i} />)
+        <PostPaging posts={filteredPosts} postsPerPage={5} />
       ) : (
         <TipsCard>
           <p>「お気に入り」のタグを登録すると表示されます</p>
