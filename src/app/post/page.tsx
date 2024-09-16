@@ -1,4 +1,3 @@
-import PostCard from '@/components/post/PostCard';
 import { Main, Section, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import { getPostsProps } from '@/lib/getPosts';
@@ -6,6 +5,7 @@ import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import { Metadata } from 'next';
 import FeedButton from '@/components/post/FeedButton';
+import PostPaging from '@/components/post/PostPaging';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -28,11 +28,7 @@ export default async function PostList() {
           投稿一覧
           <FeedButton url='/feed' />
         </Title>
-        <div className='flex flex-col gap-y-3'>
-          {posts.map((post, i) => (
-            <PostCard post={post} key={i} />
-          ))}
-        </div>
+        <PostPaging posts={posts} />
       </Section>
     </Main>
   );
