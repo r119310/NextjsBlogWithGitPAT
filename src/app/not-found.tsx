@@ -1,7 +1,9 @@
+import InlineVideo from '@/components/InlineVideo';
 import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
 import { Main, SectionNoP, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import { generateMetadataTemplate } from '@/lib/SEO';
+import { headerMovName } from '@/static/constant';
 import { Metadata } from 'next';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,16 +21,7 @@ export default async function PostList() {
       </Side>
       <SectionNoP>
         <div className='pointer-events-none m-0 aspect-[10_/_3] w-full overflow-hidden bg-[#0e4589] p-0'>
-          <video
-            src={require('./header_mov.mp4')}
-            autoPlay
-            muted
-            loop
-            disableRemotePlayback
-            disablePictureInPicture
-            preload='auto'
-            playsInline
-          />
+          <InlineVideo fileName={headerMovName} />
         </div>
         <div className='px-8 pb-8 pt-3'>
           <Title>404 Not Found</Title>

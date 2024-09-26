@@ -3,7 +3,7 @@ import { Main, SectionNoP, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import FavoritePosts from '@/components/post/FavoritePosts';
 import FavoriteTags from '@/components/tag/FavoriteTags';
-import { siteName } from '@/static/constant';
+import { headerMovName, siteName } from '@/static/constant';
 import SearchBoxWrapper from '@/components/SearchBoxWrapper';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
@@ -12,6 +12,7 @@ import PostCard from '@/components/post/PostCard';
 import { WebSite, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
 import Link from 'next/link';
+import InlineVideo from '@/components/InlineVideo';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -43,16 +44,7 @@ export default async function Blogs() {
       </Side>
       <SectionNoP>
         <div className='pointer-events-none m-0 aspect-[10_/_3] w-full overflow-hidden bg-[#0e4589] p-0'>
-          <video
-            src={require('./header_mov.mp4')}
-            autoPlay
-            muted
-            loop
-            disableRemotePlayback
-            disablePictureInPicture
-            preload='auto'
-            playsInline
-          />
+          <InlineVideo fileName={headerMovName} />
         </div>
         <div className='px-8 pb-8 pt-3'>
           <Title>{siteName}</Title>
