@@ -12,4 +12,3 @@ tailwind.config.ts
 .eslintrc.json
 .hintrc
 tsconfig.json
-global.d.ts

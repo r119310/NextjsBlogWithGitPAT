@@ -12,7 +12,6 @@ import PostCard from '@/components/post/PostCard';
 import { WebSite, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
 import Link from 'next/link';
-import headerVideo from '/videos/header_mov.mp4';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -45,7 +44,7 @@ export default async function Blogs() {
       <SectionNoP>
         <div className='pointer-events-none m-0 aspect-[10_/_3] w-full overflow-hidden bg-[#0e4589] p-0'>
           <video
-            src={headerVideo}
+            src={require('./header_mov.mp4')}
             autoPlay
             muted
             loop
