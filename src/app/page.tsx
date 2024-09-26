@@ -11,6 +11,7 @@ import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
 import PostCard from '@/components/post/PostCard';
 import { WebSite, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
+import Link from 'next/link';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -35,12 +36,23 @@ export default async function Blogs() {
         <TipsCard>
           ブログへようこそ！
           <br />
-          まだ製作途中ですがよろしくお願いします...!
+          <Link target='_blank' rel='noopener noreferrer' href='https://github.com/isirmt/NextjsBlogWithGitPAT/issues'>
+            <u>バグ・問題等の報告はこちらへ</u>
+          </Link>
         </TipsCard>
       </Side>
       <SectionNoP>
-        <div className='flex h-36 w-full flex-col items-center justify-center bg-blue-300 transition-colors dark:bg-violet-600'>
-          準備中...
+        <div className='pointer-events-none m-0 aspect-[10_/_3] w-full overflow-hidden bg-[#0e4589] p-0'>
+          <video
+            src={require('/public/header_mov.mp4')}
+            autoPlay
+            muted
+            loop
+            disableRemotePlayback
+            disablePictureInPicture
+            preload='auto'
+            playsInline
+          />
         </div>
         <div className='px-8 pb-8 pt-3'>
           <Title>{siteName}</Title>
