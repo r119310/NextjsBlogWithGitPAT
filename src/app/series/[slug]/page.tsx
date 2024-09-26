@@ -7,6 +7,7 @@ import { siteName } from '@/static/constant';
 import { cache } from 'react';
 import React from 'react';
 import PostPaging from '@/components/post/PostPaging';
+import { ExplainingBanner } from '@/components/UserBanner';
 
 const getContents = cache(async (slug: string) => {
   return getSeries(slug);
@@ -49,7 +50,11 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
         ) : (
           <></>
         )}
-        <PostPaging posts={posts} useIndex useRouting postsPerPage={20} />
+        {posts.length > 0 ? (
+          <PostPaging posts={posts} useIndex useRouting postsPerPage={20} />
+        ) : (
+          <ExplainingBanner>シリーズ「{series.meta.name}」の投稿は見つかりませんでした。</ExplainingBanner>
+        )}
       </Section>
     </Main>
   );

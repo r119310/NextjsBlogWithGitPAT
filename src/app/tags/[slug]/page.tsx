@@ -7,6 +7,7 @@ import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import FeedButton from '@/components/post/FeedButton';
 import PostPaging from '@/components/post/PostPaging';
+import { ExplainingBanner } from '@/components/UserBanner';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
@@ -44,8 +45,14 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
           タグ「#{slug}」の投稿一覧
           <FeedButton url={`/tags/${params.slug}/feed`} />
         </Title>
-        <SubscribeTagButton tag={slug} />
-        <PostPaging posts={filteredPosts} useRouting />
+        {filteredPosts.length > 0 ? (
+          <>
+            <SubscribeTagButton tag={slug} />
+            <PostPaging posts={filteredPosts} useRouting />
+          </>
+        ) : (
+          <ExplainingBanner>タグ「#{slug}」の投稿は見つかりませんでした。</ExplainingBanner>
+        )}
       </Section>
     </Main>
   );
