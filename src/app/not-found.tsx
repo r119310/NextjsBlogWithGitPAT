@@ -3,6 +3,7 @@ import { Main, SectionNoP, Side, Title } from '@/components/layout/PageLayout';
 import TipsCard from '@/components/TipsCard';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
+import headerVideo from '/videos/header_mov.mp4';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -20,7 +21,7 @@ export default async function PostList() {
       <SectionNoP>
         <div className='pointer-events-none m-0 aspect-[10_/_3] w-full overflow-hidden bg-[#0e4589] p-0'>
           <video
-            src={require('/public/header_mov.mp4')}
+            src={headerVideo}
             autoPlay
             muted
             loop
