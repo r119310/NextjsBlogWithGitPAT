@@ -8,7 +8,7 @@ import SearchBoxWrapper from '@/components/SearchBoxWrapper';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
 import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
-import PostCard from '@/components/post/PostCard';
+import { PostCard, PostLargeCard } from '@/components/post/PostCard';
 import { WebSite, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
 import Link from 'next/link';
@@ -51,11 +51,21 @@ export default async function Blogs() {
           <div className='my-3 md:hidden'>
             <SearchBoxWrapper />
           </div>
+          {posts.length > 0 ? (
+            <div className='my-3'>
+              <h2>最新の記事</h2>
+              <div className='mt-3'>
+                <PostLargeCard post={posts[0]} />
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
           <h2>「お気に入り」のタグ一覧</h2>
           <FavoriteTags />
           <h2>「お気に入り」登録タグの投稿一覧</h2>
           <FavoritePosts posts={posts} />
-          <h2>最新の記事</h2>
+          <h2>新着記事一覧</h2>
           <div className='my-3 flex flex-col gap-y-3'>
             {posts.slice(0, 5).map((post, i) => (
               <PostCard post={post} key={i} />

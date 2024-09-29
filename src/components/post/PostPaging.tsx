@@ -1,6 +1,6 @@
 'use client';
 import { Post } from '@/static/postType';
-import PostCard from './PostCard';
+import { PostCard } from './PostCard';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 

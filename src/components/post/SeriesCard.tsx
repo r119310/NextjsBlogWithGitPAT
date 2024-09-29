@@ -1,6 +1,6 @@
 import { getSeries } from '@/lib/getPosts';
 import Link from 'next/link';
-import PostCard from './PostCard';
+import { PostCard } from './PostCard';
 import { ExplainingBanner } from '../UserBanner';
 
 export default async function SeriesCard({ slug, index }: { slug: string; index?: number }) {
