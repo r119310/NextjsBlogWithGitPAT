@@ -55,7 +55,7 @@ export function PostLargeCard({ post }: { post: Post }) {
     <div className='w-full rounded-md border border-transparent bg-white transition-all hover:border-gray-200 hover:shadow-md dark:bg-slate-800'>
       <div>
         <Link href={`/post/${post.slug}`}>
-          <div className='overflow-hidden rounded-md bg-yellow-50'>
+          <div className='overflow-hidden rounded-md bg-slate-100 dark:bg-slate-700'>
             <Image alt={post.data.title} width={1200} height={630} src={`/api/ogp-posts/${post.slug}`} />
           </div>
           <div className='flex min-h-28 items-center'>
