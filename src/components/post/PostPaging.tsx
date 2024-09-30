@@ -95,7 +95,7 @@ export default function PostPaging({
   const displayingPosts = posts.slice(startIndex, startIndex + postsPerPage);
 
   return (
-    <div>
+    <div className='block'>
       <div className='mb-2 flex items-center justify-between'>
         {/* ナビゲーション */}
         <div>{posts.length}&nbsp;件</div>
@@ -138,47 +138,49 @@ export default function PostPaging({
         ))}
       </div>
       <div
-        className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} ${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'flex'} mt-3 items-center justify-center gap-2`}
+        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} ${maxPage === 1 ? 'relative' : 'sticky'} bottom-0 border-t bg-white pb-2.5 pt-1.5 dark:border-slate-600 dark:bg-slate-800`}
       >
-        <PagingButton
-          title='前のページ'
-          icon='i-tabler-arrow-badge-left-filled'
-          func={() => {
-            const nextPage = page - 1 <= 0 ? maxPage : page - 1;
-            if (useRouting) updatePage(nextPage);
-            setPage(nextPage);
-          }}
-        />
-        <div className='flex gap-1'>
-          {linkingStartPage !== 1 ? <MorePageSign /> : <></>}
-          {linkingPages.map((item, i) => (
-            <button
-              key={i}
-              title={`${item}ページ目へ`}
-              className={`block size-4 rounded-full border border-blue-500 ${page === item ? 'pointer-events-none bg-blue-500' : 'bg-transparent'} transition-colors hover:bg-blue-500`}
-              onClick={() => {
-                const nextPage = item;
-                if (useRouting) updatePage(nextPage);
-                setPage(nextPage);
-              }}
-            ></button>
-          ))}
-          {linkingEndPage !== maxPage ? <MorePageSign /> : <></>}
+        <div
+          className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-3 flex items-center justify-center gap-2`}
+        >
+          <PagingButton
+            title='前のページ'
+            icon='i-tabler-arrow-badge-left-filled'
+            func={() => {
+              const nextPage = page - 1 <= 0 ? maxPage : page - 1;
+              if (useRouting) updatePage(nextPage);
+              setPage(nextPage);
+            }}
+          />
+          <div className='flex gap-1'>
+            {linkingStartPage !== 1 ? <MorePageSign /> : <></>}
+            {linkingPages.map((item, i) => (
+              <button
+                key={i}
+                title={`${item}ページ目へ`}
+                className={`block size-4 rounded-full border border-blue-500 ${page === item ? 'pointer-events-none bg-blue-500' : 'bg-transparent'} transition-colors hover:bg-blue-500`}
+                onClick={() => {
+                  const nextPage = item;
+                  if (useRouting) updatePage(nextPage);
+                  setPage(nextPage);
+                }}
+              ></button>
+            ))}
+            {linkingEndPage !== maxPage ? <MorePageSign /> : <></>}
+          </div>
+          <PagingButton
+            title='次のページ'
+            icon='i-tabler-arrow-badge-right-filled'
+            func={() => {
+              const nextPage = page + 1 > maxPage ? 1 : page + 1;
+              if (useRouting) updatePage(nextPage);
+              setPage(nextPage);
+            }}
+          />
         </div>
-        <PagingButton
-          title='次のページ'
-          icon='i-tabler-arrow-badge-right-filled'
-          func={() => {
-            const nextPage = page + 1 > maxPage ? 1 : page + 1;
-            if (useRouting) updatePage(nextPage);
-            setPage(nextPage);
-          }}
-        />
-      </div>
-      <div
-        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} mt-2 select-none text-center text-gray-700 dark:text-slate-500`}
-      >
-        {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
+        <div className='mt-2 select-none text-center text-gray-700 dark:text-slate-500'>
+          {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
+        </div>
       </div>
     </div>
   );
