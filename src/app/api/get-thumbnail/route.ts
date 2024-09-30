@@ -1,4 +1,5 @@
 import { getImage } from '@/lib/getPosts';
+import { getImageMimeType } from '@/lib/mime-getter';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
@@ -14,7 +15,7 @@ export async function GET(req: NextRequest) {
     // Base64で取得
     const base64Image = await getImage(targetPath);
 
-    const mimeType = 'image/png';
+    const mimeType = getImageMimeType(targetPath);
     const imageBuffer = Buffer.from(base64Image, 'base64');
 
     return new NextResponse(imageBuffer, {

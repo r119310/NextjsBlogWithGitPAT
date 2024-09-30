@@ -13,31 +13,11 @@ import CopyToClipboard from './CopyToClipboard';
 import { HeadMeta } from '@/static/metaType';
 import * as React from 'react';
 import { makeExcerpt } from '@/lib/textFormatter';
-
-function getMimeType(path: string) {
-  const ext = path.split('.').pop()?.toLowerCase();
-  switch (ext) {
-    case 'jpg':
-    case 'jpeg':
-      return 'image/jpeg';
-    case 'png':
-      return 'image/png';
-    case 'gif':
-      return 'image/gif';
-    case 'webp':
-      return 'image/webp';
-    case 'bmp':
-      return 'image/bmp';
-    case 'svg':
-      return 'image/svg+xml';
-    default:
-      return 'application/octet-stream';
-  }
-}
+import { getImageMimeType } from '@/lib/mime-getter';
 
 async function ExImg({ path, alt }: { path: string; alt?: string }) {
   const image64 = await getImage(path);
-  const mimeType = getMimeType(path);
+  const mimeType = getImageMimeType(path);
   return <img alt={alt} src={`data:${mimeType};base64,${image64}`} />;
 }
 
