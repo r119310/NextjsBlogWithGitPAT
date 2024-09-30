@@ -42,12 +42,14 @@ export default function PostPaging({
   posts,
   useIndex,
   useRouting,
+  hideOnePagingButton,
   postsPerPage = 10,
   linkingWidth = 2,
 }: {
   posts: Post[];
   useIndex?: boolean;
   useRouting?: boolean;
+  hideOnePagingButton?: boolean;
   postsPerPage?: number;
   linkingWidth?: number;
 }) {
@@ -124,7 +126,7 @@ export default function PostPaging({
         ))}
       </div>
       <div
-        className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-3 flex items-center justify-center gap-2`}
+        className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} ${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'flex'} mt-3 items-center justify-center gap-2`}
       >
         <PagingButton
           title='前のページ'
@@ -161,7 +163,9 @@ export default function PostPaging({
           }}
         />
       </div>
-      <div className='mt-2 select-none text-center text-gray-700'>
+      <div
+        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} mt-2 select-none text-center text-gray-700`}
+      >
         {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
       </div>
     </div>

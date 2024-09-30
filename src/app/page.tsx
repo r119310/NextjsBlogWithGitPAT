@@ -8,11 +8,12 @@ import SearchBoxWrapper from '@/components/SearchBoxWrapper';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { Metadata } from 'next';
 import { InnerLinkBlueButton } from '@/components/InnerLinkButton';
-import { PostCard, PostLargeCard } from '@/components/post/PostCard';
+import { PostLargeCard } from '@/components/post/PostCard';
 import { WebSite, WithContext } from 'schema-dts';
 import JsonLd from '@/components/JsonLd';
 import Link from 'next/link';
 import InlineVideo from '@/components/InlineVideo';
+import PostPaging from '@/components/post/PostPaging';
 
 export async function generateMetadata(): Promise<Metadata> {
   return generateMetadataTemplate({
@@ -67,9 +68,7 @@ export default async function Blogs() {
           <FavoritePosts posts={posts} />
           <h2>新着記事一覧</h2>
           <div className='my-3 flex flex-col gap-y-3'>
-            {posts.slice(0, 5).map((post, i) => (
-              <PostCard post={post} key={i} />
-            ))}
+            <PostPaging posts={posts.slice(0, 5)} postsPerPage={5} hideOnePagingButton />
           </div>
           <div className='flex flex-col items-center justify-center'>
             <InnerLinkBlueButton path='/post' text='投稿一覧へ' />
