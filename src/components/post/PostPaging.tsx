@@ -89,14 +89,14 @@ export default function PostPaging({
         <div>{posts.length}&nbsp;件</div>
         <div className='flex items-center gap-2'>
           <span className='select-none text-sm'>レイアウト</span>
-          <div className='rounded-lg border border-slate-200'>
+          <div className='rounded-lg border border-slate-200 dark:border-slate-600'>
             <button
               title='大きい表示'
               className={`group inline-flex size-8 items-center justify-center rounded-lg transition-colors ${isLargePostCard ? 'bg-blue-500' : ''} hover:bg-blue-400`}
               onClick={() => setIsLargePostCard(true)}
             >
               <span
-                className={`${isLargePostCard ? 'bg-white' : 'bg-gray-700'} i-tabler-photo size-5 transition-colors group-hover:bg-white`}
+                className={`${isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} i-tabler-photo size-5 transition-colors group-hover:bg-white`}
               ></span>
             </button>
             <button
@@ -105,7 +105,7 @@ export default function PostPaging({
               onClick={() => setIsLargePostCard(false)}
             >
               <span
-                className={`${!isLargePostCard ? 'bg-white' : 'bg-gray-700'} i-tabler-list size-5 transition-colors group-hover:bg-white`}
+                className={`${!isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} i-tabler-list size-5 transition-colors group-hover:bg-white`}
               ></span>
             </button>
           </div>
@@ -164,7 +164,7 @@ export default function PostPaging({
         />
       </div>
       <div
-        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} mt-2 select-none text-center text-gray-700`}
+        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} mt-2 select-none text-center text-gray-700 dark:text-slate-500`}
       >
         {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
       </div>
