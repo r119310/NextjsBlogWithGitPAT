@@ -1,8 +1,30 @@
 'use client';
 import { Post } from '@/static/postType';
-import { PostCard } from './PostCard';
+import { PostCard, PostLargeCard } from './PostCard';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { create } from 'zustand';
+
+interface ShowingOptionState {
+  isLarge: boolean;
+  // eslint-disable-next-line no-unused-vars
+  setIsLarge: (flag: boolean) => void;
+}
+
+// ローカルストレージと連携
+const useShowingOptionStore = create<ShowingOptionState>()(
+  persist(
+    (set) => ({
+      isLarge: false,
+      setIsLarge: (flag: boolean) => set(() => ({ isLarge: flag })),
+    }),
+    {
+      name: 'showing_option',
+      storage: createJSONStorage(() => localStorage),
+    },
+  ),
+);
 
 const MorePageSign = () => <div className='pointer-events-none block size-4 rounded-full bg-blue-200'></div>;
 
@@ -32,9 +54,12 @@ export default function PostPaging({
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const p = useRouting ? searchParams.get('p') : null;
-
-  const [page, setPage] = useState<number>(useRouting ? (p ? Number(p) : 1) : 1);
+  const [page, setPage] = useState<number>(() => {
+    const p = useRouting ? searchParams.get('p') : null;
+    return useRouting ? (p ? Number(p) : 1) : 1;
+  });
+  const isLargePostCard = useShowingOptionStore((state) => state.isLarge);
+  const setIsLargePostCard = useShowingOptionStore((state) => state.setIsLarge);
 
   const startIndex = postsPerPage * (page - 1);
   const maxPage = Math.ceil(posts.length / postsPerPage);
@@ -57,22 +82,45 @@ export default function PostPaging({
 
   return (
     <div>
+      <div className='mb-2 flex items-center justify-between'>
+        {/* ナビゲーション */}
+        <div>{posts.length}&nbsp;件</div>
+        <div className='flex items-center gap-2'>
+          <span className='select-none text-sm'>レイアウト</span>
+          <div className='rounded-lg border border-slate-200'>
+            <button
+              title='大きい表示'
+              className={`group inline-flex size-8 items-center justify-center rounded-lg transition-colors ${isLargePostCard ? 'bg-blue-500' : ''} hover:bg-blue-400`}
+              onClick={() => setIsLargePostCard(true)}
+            >
+              <span
+                className={`${isLargePostCard ? 'bg-white' : 'bg-gray-700'} i-tabler-photo size-5 transition-colors group-hover:bg-white`}
+              ></span>
+            </button>
+            <button
+              title='小さい表示'
+              className={`group inline-flex size-8 items-center justify-center rounded-lg transition-colors ${!isLargePostCard ? 'bg-blue-500' : ''} hover:bg-blue-400`}
+              onClick={() => setIsLargePostCard(false)}
+            >
+              <span
+                className={`${!isLargePostCard ? 'bg-white' : 'bg-gray-700'} i-tabler-list size-5 transition-colors group-hover:bg-white`}
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
       <div className='flex flex-col gap-y-3'>
         {displayingPosts.map((post, i) => (
-          <React.Fragment key={i}>
-            {useIndex ? (
-              <div className='flex items-stretch gap-1'>
-                <div className='hidden w-10 shrink-0 select-none items-center justify-center overflow-hidden break-all rounded-sm bg-gray-100 px-0.5 text-center text-lg font-bold text-gray-700 dark:bg-slate-700 dark:text-slate-400 lg:flex'>
-                  {startIndex + i + 1}
-                </div>
-                <div className='flex flex-grow'>
-                  <PostCard post={post} />
-                </div>
+          <div key={i} className={useIndex ? 'flex items-stretch gap-1' : ''}>
+            {useIndex && (
+              <div className='hidden w-10 shrink-0 select-none items-center justify-center overflow-hidden break-all rounded-sm bg-gray-100 px-0.5 text-center text-lg font-bold text-gray-700 dark:bg-slate-700 dark:text-slate-400 lg:flex'>
+                {startIndex + i + 1}
               </div>
-            ) : (
-              <PostCard post={post} />
             )}
-          </React.Fragment>
+            <div className={useIndex ? 'flex flex-grow' : ''}>
+              {isLargePostCard ? <PostLargeCard post={post} /> : <PostCard post={post} />}
+            </div>
+          </div>
         ))}
       </div>
       <div

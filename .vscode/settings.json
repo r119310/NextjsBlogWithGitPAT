@@ -14,7 +14,8 @@
     "rehype",
     "tabler",
     "tailwindcss",
-    "toploader"
+    "toploader",
+    "zustand"
   ],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
