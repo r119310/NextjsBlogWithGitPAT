@@ -2,7 +2,7 @@
 import { Post } from '@/static/postType';
 import { PostCard, PostLargeCard } from './PostCard';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { create } from 'zustand';
 
@@ -43,6 +43,7 @@ export default function PostPaging({
   useIndex,
   useRouting,
   hideOnePagingButton,
+  customParam = 'p',
   postsPerPage = 10,
   linkingWidth = 2,
 }: {
@@ -50,6 +51,7 @@ export default function PostPaging({
   useIndex?: boolean;
   useRouting?: boolean;
   hideOnePagingButton?: boolean;
+  customParam?: string;
   postsPerPage?: number;
   linkingWidth?: number;
 }) {
@@ -57,7 +59,7 @@ export default function PostPaging({
   const pathname = usePathname();
   const router = useRouter();
   const [page, setPage] = useState<number>(() => {
-    const p = useRouting ? searchParams.get('p') : null;
+    const p = useRouting ? searchParams.get(customParam) : null;
     return useRouting ? (p ? Number(p) : 1) : 1;
   });
   const isLargePostCard = useShowingOptionStore((state) => state.isLarge);
@@ -73,12 +75,22 @@ export default function PostPaging({
     linkingPages.push(i);
   }
 
+  const updatePage = useCallback(
+    (nextPage: number) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(customParam, String(nextPage));
+
+      router.push(`${pathname}?${params.toString()}`);
+    },
+    [customParam, pathname, router, searchParams],
+  );
+
   useEffect(() => {
     if (page <= 0 || page > maxPage) {
-      if (useRouting) router.push(pathname);
+      if (useRouting) updatePage(1);
       setPage(1);
     }
-  }, [maxPage, page, router, pathname, useRouting]);
+  }, [maxPage, page, useRouting, updatePage]);
 
   const displayingPosts = posts.slice(startIndex, startIndex + postsPerPage);
 
@@ -133,7 +145,7 @@ export default function PostPaging({
           icon='i-tabler-arrow-badge-left-filled'
           func={() => {
             const nextPage = page - 1 <= 0 ? maxPage : page - 1;
-            if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+            if (useRouting) updatePage(nextPage);
             setPage(nextPage);
           }}
         />
@@ -146,7 +158,7 @@ export default function PostPaging({
               className={`block size-4 rounded-full border border-blue-500 ${page === item ? 'pointer-events-none bg-blue-500' : 'bg-transparent'} transition-colors hover:bg-blue-500`}
               onClick={() => {
                 const nextPage = item;
-                if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+                if (useRouting) updatePage(nextPage);
                 setPage(nextPage);
               }}
             ></button>
@@ -158,7 +170,7 @@ export default function PostPaging({
           icon='i-tabler-arrow-badge-right-filled'
           func={() => {
             const nextPage = page + 1 > maxPage ? 1 : page + 1;
-            if (useRouting) router.push(`${pathname}?p=${nextPage}`);
+            if (useRouting) updatePage(nextPage);
             setPage(nextPage);
           }}
         />
