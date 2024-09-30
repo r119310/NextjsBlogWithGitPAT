@@ -24,7 +24,9 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     title: `${data.title}`,
     description: `${excerpt}`,
     url: `/post/${params.slug.join('/')}`,
-    imageURL: `/api/ogp-posts/${slug}`,
+    imageURL: data.thumbnail
+      ? `/api/get-thumbnail?path=${encodeURIComponent(data.thumbnail)}`
+      : `/api/ogp-posts/${slug}`,
     keywords: data.tags,
     type: 'article',
   });
