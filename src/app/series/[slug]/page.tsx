@@ -38,10 +38,12 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
       </Side>
       <Section>
         <Title>
-          <span className='mr-3 rounded-md bg-slate-200 px-1.5 py-1 text-base transition-colors dark:bg-slate-700'>
-            シリーズ
+          <span className='flex flex-wrap items-center'>
+            <span className='mr-3 rounded-md bg-slate-200 px-1.5 py-1 align-middle text-base transition-colors dark:bg-slate-700'>
+              シリーズ
+            </span>
+            {series.meta.name}
           </span>
-          {series.meta.name}
         </Title>
         {series.meta.description ? (
           <div className='my-3 bg-slate-100 p-2 text-gray-800 transition-colors dark:bg-slate-700 dark:text-slate-400'>
