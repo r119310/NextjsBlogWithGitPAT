@@ -101,25 +101,28 @@ export default function PostPaging({
         <div>{posts.length}&nbsp;件</div>
         <div className='flex items-center gap-2'>
           <span className='select-none text-sm'>レイアウト</span>
-          <div className='rounded-lg border border-slate-200 dark:border-slate-600'>
+          <div className='relative overflow-hidden rounded-md border border-slate-200 transition-colors dark:border-slate-600'>
             <button
-              title='大きい表示'
-              className={`group inline-flex size-8 items-center justify-center rounded-lg transition-colors ${isLargePostCard ? 'bg-blue-500' : ''} hover:bg-blue-400`}
+              title='サムネイル表示'
+              className={`group inline-flex h-8 w-10 items-center justify-center transition-colors hover:bg-gray-200 dark:hover:bg-slate-700`}
               onClick={() => setIsLargePostCard(true)}
             >
               <span
-                className={`${isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} i-tabler-photo size-5 transition-colors group-hover:bg-white`}
+                className={`i-tabler-photo relative z-20 size-5 ${isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} transition-colors`}
               ></span>
             </button>
             <button
-              title='小さい表示'
-              className={`group inline-flex size-8 items-center justify-center rounded-lg transition-colors ${!isLargePostCard ? 'bg-blue-500' : ''} hover:bg-blue-400`}
+              title='リスト表示'
+              className={`group inline-flex h-8 w-10 items-center justify-center transition-colors hover:bg-gray-200 dark:hover:bg-slate-700`}
               onClick={() => setIsLargePostCard(false)}
             >
               <span
-                className={`${!isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} i-tabler-list size-5 transition-colors group-hover:bg-white`}
-              ></span>
+                className={`i-tabler-list relative z-20 size-5 ${!isLargePostCard ? 'bg-white' : 'bg-gray-700 dark:bg-slate-400'} transition-colors`}
+              />
             </button>
+            <div
+              className={`pointer-events-none absolute ${isLargePostCard ? 'left-0' : 'left-10'} top-0 z-10 h-8 w-10 bg-blue-500 transition-all`}
+            />
           </div>
         </div>
       </div>
