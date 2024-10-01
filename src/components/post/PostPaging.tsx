@@ -126,7 +126,7 @@ export default function PostPaging({
           </div>
         </div>
       </div>
-      <div className='flex flex-col gap-y-3'>
+      <div className='mb-2 flex flex-col gap-y-3'>
         {displayingPosts.map((post, i) => (
           <div key={i} className={useIndex ? 'flex items-stretch gap-1' : ''}>
             {useIndex && (
@@ -141,7 +141,7 @@ export default function PostPaging({
         ))}
       </div>
       <div
-        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} ${maxPage === 1 ? 'relative' : 'sticky'} bottom-0 border-t bg-white pb-2.5 pt-1.5 dark:border-slate-600 dark:bg-slate-800`}
+        className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} sticky bottom-0 z-30 border-t bg-white pb-2.5 pt-1.5 dark:border-slate-600 dark:bg-slate-800`}
       >
         <div
           className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-3 flex items-center justify-center gap-2`}
