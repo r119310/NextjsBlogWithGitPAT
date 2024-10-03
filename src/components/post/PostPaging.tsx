@@ -66,7 +66,7 @@ export default function PostPaging({
   const setIsLargePostCard = useShowingOptionStore((state) => state.setIsLarge);
 
   const startIndex = postsPerPage * (page - 1);
-  const maxPage = Math.ceil(posts.length / postsPerPage);
+  const maxPage = Math.max(Math.ceil(posts.length / postsPerPage), 1);
 
   const linkingStartPage = Math.max(page - linkingWidth, 1);
   const linkingEndPage = Math.min(page + linkingWidth, maxPage);
