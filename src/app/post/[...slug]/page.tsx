@@ -56,7 +56,7 @@ export default async function Post({ params }: { params: { slug: string[] } }) {
         <PostIndex content={content} title={data.title} />
         <div className='p-3'>
           <div className='hidden md:block'>共有</div>
-          <ShareButtons path={`/post/${slug}`} text={data.title} />
+          <ShareButtons path={`/post/${slug}`} title={data.title} />
         </div>
       </SideMDShown>
       <Article data={data} content={content} slug={slug} />
