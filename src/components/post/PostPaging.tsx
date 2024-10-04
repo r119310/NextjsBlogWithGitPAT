@@ -31,7 +31,7 @@ const MorePageSign = () => <div className='pointer-events-none block size-4 roun
 const PagingButton = ({ icon, title, func }: { icon: string; title?: string; func: () => void }) => (
   <button
     title={title}
-    className='group flex size-12 flex-col items-center justify-center rounded-full border border-blue-500 transition-colors hover:bg-blue-500'
+    className='group flex size-10 flex-col items-center justify-center rounded-full border border-blue-500 transition-colors hover:bg-blue-500 sm:size-12'
     onClick={func}
   >
     <span className={`${icon} size-8 bg-blue-500 transition-colors group-hover:bg-slate-50`} />
@@ -101,7 +101,7 @@ export default function PostPaging({
         <div>{posts.length}&nbsp;件</div>
         <div className='flex items-center gap-2'>
           <span className='select-none text-sm'>レイアウト</span>
-          <div className='relative overflow-hidden rounded-md border border-slate-200 transition-colors dark:border-slate-600'>
+          <div className='relative overflow-hidden rounded-sm border border-slate-200 transition-colors dark:border-slate-600'>
             <button
               title='サムネイル表示'
               className={`group inline-flex h-8 w-10 items-center justify-center transition-colors hover:bg-gray-200 dark:hover:bg-slate-700`}
@@ -144,7 +144,7 @@ export default function PostPaging({
         className={`${maxPage === 1 && hideOnePagingButton ? 'hidden' : 'block'} sticky bottom-0 z-30 border-t bg-white pb-2.5 pt-1.5 dark:border-slate-600 dark:bg-slate-800`}
       >
         <div
-          className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-3 flex items-center justify-center gap-2`}
+          className={`${maxPage === 1 ? 'pointer-events-none opacity-50' : ''} mt-0.5 flex items-center justify-center gap-2 sm:mt-3`}
         >
           <PagingButton
             title='前のページ'
@@ -181,7 +181,7 @@ export default function PostPaging({
             }}
           />
         </div>
-        <div className='mt-2 select-none text-center text-gray-700 dark:text-slate-500'>
+        <div className='mt-0.5 select-none text-center text-gray-700 dark:text-slate-500 sm:mt-2'>
           {page}ページ目 <span className='text-sm'>(最大&nbsp;{maxPage}ページ)</span>
         </div>
       </div>
