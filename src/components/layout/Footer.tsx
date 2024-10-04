@@ -18,13 +18,13 @@ export default async function Footer() {
   return (
     <footer>
       <div className='mx-auto flex w-full flex-col items-center justify-center p-5'>
-        <div className='p-3'>
+        <div className='w-full p-3 sm:w-auto'>
           <p>ブログを書いている人</p>
-          <div className='mt-2 gap-5 rounded-lg bg-gray-200 px-3 py-2 transition-colors dark:bg-slate-800 lg:flex lg:items-center'>
-            <div className='flex min-w-36 max-w-64 gap-5'>
+          <div className='mt-2 w-full gap-5 rounded-lg bg-gray-200 px-3 py-2 transition-colors dark:bg-slate-800 lg:flex lg:w-auto lg:items-center'>
+            <div className='flex w-full justify-center gap-5 sm:w-auto sm:min-w-48 sm:max-w-64'>
               <div>
-                <p className='ml-2'>{author.name}</p>
-                <p className='ml-2 select-none'>
+                <p className='ml-2 break-all'>{author.name}</p>
+                <p className='ml-2 select-none whitespace-nowrap'>
                   <Link
                     className='underline transition-colors hover:no-underline'
                     target='_blank'
@@ -45,7 +45,7 @@ export default async function Footer() {
               </div>
             </div>
             {enableShowGitHubProfile && !githubProfile.private_content ? (
-              <div className='mt-3 min-w-36 max-w-64 select-none border-t border-gray-300 pt-3 dark:border-slate-600 lg:mt-0 lg:border-none lg:pt-0'>
+              <div className='mt-3 flex w-full select-none flex-col items-center border-t border-gray-300 pt-3 dark:border-slate-600 sm:min-w-36 sm:max-w-64 lg:mt-0 lg:items-start lg:border-none lg:pt-0'>
                 <div className='mb-2'>
                   <span className='i-tabler-brand-github mr-1 size-5 translate-y-1' />
                   <span>GitHub</span>
@@ -56,7 +56,7 @@ export default async function Footer() {
                     className='pointer-events-none size-10 overflow-hidden rounded-full'
                     src={githubProfile.avatar_url}
                   />
-                  <div className='flex items-center'>
+                  <div className='flex items-center break-all'>
                     <Link
                       target='_blank'
                       className='underline transition-colors hover:no-underline'
@@ -67,16 +67,16 @@ export default async function Footer() {
                     </Link>
                   </div>
                 </div>
-                {githubProfile.bio ? <div className='mt-2 text-sm'>{githubProfile.bio}</div> : <></>}
+                {githubProfile.bio ? <div className='mt-2 break-all text-sm'>{githubProfile.bio}</div> : <></>}
               </div>
             ) : (
               <></>
             )}
             {enableShowXProfile && !githubProfile.private_content && githubProfile.twitter_username ? (
-              <div className='mt-3 min-w-36 max-w-64 select-none border-t border-gray-300 pt-3 dark:border-slate-600 lg:mt-0 lg:border-none lg:pt-0'>
+              <div className='mt-3 flex w-full select-none flex-col items-center border-t border-gray-300 pt-3 dark:border-slate-600 sm:min-w-36 sm:max-w-64 lg:mt-0 lg:items-start lg:border-none lg:pt-0'>
                 <div className='flex items-center justify-start gap-2'>
                   <div className='i-tabler-brand-x size-8 bg-gray-700 transition-colors dark:bg-slate-400' />
-                  <div className='flex items-center'>
+                  <div className='flex items-center break-all'>
                     <Link
                       target='_blank'
                       className='underline transition-colors hover:no-underline'
