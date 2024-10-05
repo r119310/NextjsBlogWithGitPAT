@@ -8,12 +8,29 @@ export default async function Footer() {
     ...getHeaders(),
     ...getNext(3600 * 24),
   }).then((res) => {
-    if (res.status === 200) return res.json();
+    if (res.ok) return res.json();
     else
       return {
         private_content: true,
       };
   });
+
+  const ownerRepoUser = process.env.VERCEL_GIT_REPO_OWNER;
+  const ownerRepoName = process.env.VERCEL_GIT_REPO_SLUG;
+  const ownerRepoMainSha =
+    ownerRepoUser && ownerRepoName
+      ? (
+          await fetch(`https://api.github.com/repos/${ownerRepoUser}/${ownerRepoName}/commits?per_page=1`, {
+            ...getHeaders(),
+            ...getNext(600),
+          }).then((res) => (res.ok ? res.json() : undefined))
+        )?.[0]?.sha
+      : undefined;
+  const baseRepoCommitLink = `https://api.github.com/repos/isirmt/NextjsBlogWithGitPAT/commits/${ownerRepoMainSha}`;
+  const baseRepoCommitIsPresenting = await fetch(baseRepoCommitLink, {
+    ...getHeaders(),
+    ...getNext(600),
+  }).then((res) => res.status === 200);
 
   return (
     <footer>
@@ -94,6 +111,31 @@ export default async function Footer() {
           </div>
         </div>
         <small>&copy; {author.name}</small>
+        <small>
+          Build with&nbsp;
+          <Link
+            className='underline'
+            target='_blank'
+            rel='noopener noreferrer'
+            href='https://github.com/isirmt/NextjsBlogWithGitPAT'
+          >
+            ブログもち
+          </Link>
+          &nbsp; (
+          {baseRepoCommitIsPresenting ? (
+            <Link
+              className='underline'
+              target='_blank'
+              rel='noopener noreferrer'
+              href={`https://github.com/isirmt/NextjsBlogWithGitPAT/tree/${ownerRepoMainSha}`}
+            >
+              {String(ownerRepoMainSha).slice(0, 7)}
+            </Link>
+          ) : (
+            <>Unknown</>
+          )}
+          )
+        </small>
       </div>
     </footer>
   );
