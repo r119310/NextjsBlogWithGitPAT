@@ -101,7 +101,7 @@ export default function PostPaging({
         <div>{posts.length}&nbsp;件</div>
         <div className='flex items-center gap-2'>
           <span className='select-none text-sm'>レイアウト</span>
-          <div className='relative overflow-hidden rounded-sm border border-slate-200 transition-colors dark:border-slate-600'>
+          <div className='relative overflow-hidden rounded-md border border-slate-200 transition-colors dark:border-slate-600'>
             <button
               title='サムネイル表示'
               className={`group inline-flex h-8 w-10 items-center justify-center transition-colors hover:bg-gray-200 dark:hover:bg-slate-700`}
