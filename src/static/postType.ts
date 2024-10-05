@@ -3,6 +3,7 @@ export type PostData = {
   tags?: string[];
   date?: string;
   series?: string;
+  thumbnail?: string;
   [key: string]: any;
 };
 

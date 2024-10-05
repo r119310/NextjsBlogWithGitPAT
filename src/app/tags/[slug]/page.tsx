@@ -1,4 +1,3 @@
-import PostCard from '@/components/post/PostCard';
 import SubscribeTagButton from '@/components/tag/SubscribeTagButton';
 import TipsCard from '@/components/TipsCard';
 import { getPostsProps } from '@/lib/getPosts';
@@ -7,6 +6,8 @@ import { Metadata } from 'next';
 import { generateMetadataTemplate } from '@/lib/SEO';
 import { siteName } from '@/static/constant';
 import FeedButton from '@/components/post/FeedButton';
+import PostPaging from '@/components/post/PostPaging';
+import { ExplainingBanner } from '@/components/UserBanner';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const slug = decodeURIComponent(params.slug);
@@ -44,12 +45,14 @@ export default async function PostListWithTag({ params }: { params: { slug: stri
           タグ「#{slug}」の投稿一覧
           <FeedButton url={`/tags/${params.slug}/feed`} />
         </Title>
-        <SubscribeTagButton tag={slug} />
-        <div className='flex flex-col gap-y-3'>
-          {filteredPosts.map((post, i) => (
-            <PostCard post={post} key={i} />
-          ))}
-        </div>
+        {filteredPosts.length > 0 ? (
+          <>
+            <SubscribeTagButton tag={slug} />
+            <PostPaging posts={filteredPosts} useRouting />
+          </>
+        ) : (
+          <ExplainingBanner>タグ「#{slug}」の投稿は見つかりませんでした。</ExplainingBanner>
+        )}
       </Section>
     </Main>
   );

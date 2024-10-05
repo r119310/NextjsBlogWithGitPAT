@@ -1,7 +1,7 @@
 import { Post } from '@/static/postType';
-import PostCard from './post/PostCard';
 import TagBanner from './tag/TagBanner';
 import { getTags } from '@/lib/postSorter';
+import PostPaging from './post/PostPaging';
 
 export default function SearchResult({ posts, keywords }: { posts: Post[]; keywords: string[] }) {
   const tags = getTags(posts);
@@ -35,10 +35,8 @@ export default function SearchResult({ posts, keywords }: { posts: Post[]; keywo
       </div>
       <div className='mt-2'>
         <h2>投稿({filteredPosts.length}件)</h2>
-        <div className='mt-2 flex flex-col gap-y-3'>
-          {filteredPosts.map((post, i) => (
-            <PostCard post={post} key={i} />
-          ))}
+        <div className='mt-2'>
+          <PostPaging posts={filteredPosts} postsPerPage={5} />
         </div>
       </div>
     </section>

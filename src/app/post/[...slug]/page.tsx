@@ -24,7 +24,9 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
     title: `${data.title}`,
     description: `${excerpt}`,
     url: `/post/${params.slug.join('/')}`,
-    imageURL: `/api/ogp-posts/${slug}`,
+    imageURL: data.thumbnail
+      ? `/api/get-thumbnail?path=${encodeURIComponent(data.thumbnail)}`
+      : `/api/ogp-posts/${slug}`,
     keywords: data.tags,
     type: 'article',
   });
@@ -54,7 +56,7 @@ export default async function Post({ params }: { params: { slug: string[] } }) {
         <PostIndex content={content} title={data.title} />
         <div className='p-3'>
           <div className='hidden md:block'>共有</div>
-          <ShareButtons path={`/post/${slug}`} text={data.title} />
+          <ShareButtons path={`/post/${slug}`} title={data.title} />
         </div>
       </SideMDShown>
       <Article data={data} content={content} slug={slug} />

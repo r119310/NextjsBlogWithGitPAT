@@ -5,8 +5,8 @@ import ThemeSelector from '../ThemeSelector';
 
 export default function Header() {
   return (
-    <header className='sticky top-0 z-10 bg-gray-100 px-4 transition-colors dark:bg-slate-900 dark:text-white'>
-      <nav className='mx-auto grid h-14 max-w-4xl grid-cols-2 items-center md:grid-cols-3'>
+    <header className='sticky top-0 z-40 bg-gray-100 px-4 transition-colors dark:bg-slate-900 dark:text-white'>
+      <nav className='mx-auto grid h-14 max-w-4xl select-none grid-cols-2 items-center md:grid-cols-3'>
         <div className='flex flex-row'>
           <div>
             <Link className='hover:underline' href='/'>
