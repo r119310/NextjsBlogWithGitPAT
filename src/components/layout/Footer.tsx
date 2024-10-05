@@ -112,13 +112,23 @@ export default async function Footer() {
         </div>
         <small>&copy; {author.name}</small>
         <small>
-          Build with{' '}
-          <Link className='underline' href='https://github.com/isirmt/NextjsBlogWithGitPAT'>
+          Build with&nbsp;
+          <Link
+            className='underline'
+            target='_blank'
+            rel='noopener noreferrer'
+            href='https://github.com/isirmt/NextjsBlogWithGitPAT'
+          >
             ブログもち
-          </Link>{' '}
-          (
+          </Link>
+          &nbsp; (
           {baseRepoCommitIsPresenting ? (
-            <Link href={`https://github.com/isirmt/NextjsBlogWithGitPAT/tree/${ownerRepoMainSha}`}>
+            <Link
+              className='underline'
+              target='_blank'
+              rel='noopener noreferrer'
+              href={`https://github.com/isirmt/NextjsBlogWithGitPAT/tree/${ownerRepoMainSha}`}
+            >
               {String(ownerRepoMainSha).slice(0, 7)}
             </Link>
           ) : (
